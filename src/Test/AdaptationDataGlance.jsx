@@ -180,7 +180,7 @@ const DataGlance = () => {
     const [adaptationCropTabs, setAdaptationCropTabs] = useState([]);
     const [adaptations, setAdaptations] = useState([]);
     const [geojsonData, setGeojsonData] = useState(null);
-    const [selectedCountryId, setSelectedCountryId] = useState(5); // Sri Lanka
+    const [selectedCountryId, setSelectedCountryId] = useState(4); // India
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
     const [selectedScenarioId, setSelectedScenarioId] = useState("");
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
@@ -1252,9 +1252,9 @@ const DataGlance = () => {
             return;
         }
 
-        let countryId = 5;                    // DEFAULT = Sri Lanka
+        let countryId = 4;                    // DEFAULT = India
         let admin_level = "country";          // Always start at country level
-        let admin_level_id = 5;
+        let admin_level_id = 4;
         let showSelect = true;
         if (country) {
             const countryName = country.toLowerCase().replace(/[-_]/g, " ");
@@ -1268,11 +1268,11 @@ const DataGlance = () => {
                 admin_level_id = matchedCountry.country_id;
                 showSelect = false;
             } else {
-                console.warn(`Country "${country}" not found or inactive, defaulting to South Asia`);
+                console.warn(`Country "${country}" not found or inactive, defaulting to India`);
                 Swal.fire({
                     icon: "warning",
                     title: "Invalid Country",
-                    text: `Country "${country}" not found or inactive. Defaulting to South Asia.`,
+                    text: `Country "${country}" not found or inactive. Defaulting to India.`,
                 });
             }
         }
@@ -1352,7 +1352,7 @@ const DataGlance = () => {
                     setSelectedAdaptationCropTabId(tabId);
                 }
                 if (!country) {
-                    fetchGeojson("country", 5);
+                    fetchGeojson("country", 4);
                 }
             } catch (err) {
                 console.error("Initialization error:", err);

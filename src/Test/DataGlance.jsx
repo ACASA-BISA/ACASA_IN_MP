@@ -205,7 +205,7 @@ const DataGlance = () => {
     const [climateScenarios, setClimateScenarios] = useState([]);
     const [visualizationScales, setVisualizationScales] = useState([]);
     const [geojsonData, setGeojsonData] = useState(null);
-    const [selectedCountryId, setSelectedCountryId] = useState(5); // Sri Lanka
+    const [selectedCountryId, setSelectedCountryId] = useState(4); // India
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
     const [selectedScenarioId, setSelectedScenarioId] = useState("");
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
@@ -798,9 +798,9 @@ const DataGlance = () => {
             return;
         }
 
-        let countryId = 5;                    // DEFAULT = Sri Lanka
+        let countryId = 4;                    // DEFAULT = India
         let admin_level = "country";          // Always start at country level
-        let admin_level_id = 5;
+        let admin_level_id = 4;
         let showSelect = true;
 
         // If country comes from URL, override with that
@@ -818,11 +818,11 @@ const DataGlance = () => {
                 admin_level_id = matchedCountry.country_id;
                 showSelect = false;
             } else {
-                console.warn(`Country "${country}" not found or inactive. Defaulting to Sri Lanka.`);
+                console.warn(`Country "${country}" not found or inactive. Defaulting to India.`);
                 Swal.fire({
                     icon: "warning",
                     title: "Invalid Country",
-                    text: `Country "${country}" not found or inactive. Defaulting to Sri Lanka.`,
+                    text: `Country "${country}" not found or inactive. Defaulting to India.`,
                 });
             }
         }
@@ -915,7 +915,7 @@ const DataGlance = () => {
                 }
 
                 if (!country) {
-                    fetchGeojson("country", 5);
+                    fetchGeojson("country", 4);
                 }
             } catch (err) {
                 console.error("Initialization error:", err);
