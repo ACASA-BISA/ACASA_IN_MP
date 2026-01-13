@@ -1019,7 +1019,10 @@ const DataGlance = () => {
                         map.fitBounds([
                             [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                             [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
-                        ]);
+                        ], {
+                            paddingTopLeft: [20, 20],
+                            paddingBottomRight: [20, 50],
+                        });
                     }
                 }
                 geotiffLayer.on("click", async (e) => {
@@ -1484,7 +1487,10 @@ const DataGlance = () => {
                     map.fitBounds([
                         [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                         [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
-                    ]);
+                    ], {
+                        paddingTopLeft: [20, 20],
+                        paddingBottomRight: [20, 50],
+                    });
                 }
             }
             if (memoizedGeojsonData?.geojson) {
@@ -2063,7 +2069,7 @@ const DataGlance = () => {
                                                 })}
                                                 disabled={isLoading || isOptionLoading}
                                             >
-                                                <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px", fontFamily: "Poppins",  }}>
+                                                <MenuItem value={2050} sx={{ fontSize: "12px", paddingY: "2px", fontFamily: "Poppins", }}>
                                                     2050
                                                 </MenuItem>
                                                 <MenuItem value={2080} sx={{ fontSize: "12px", paddingY: "2px", fontFamily: "Poppins", }}>
@@ -2099,7 +2105,7 @@ const DataGlance = () => {
                                         minWidth: 'auto',
                                         fontFamily: "Poppins",
                                     }}>
-                                        <Typography sx={{ display: 'flex', fontSize: 13, fontWeight: "500", flexWrap: 'nowrap', fontFamily:'Poppins' }}>Indicator: </Typography>
+                                        <Typography sx={{ display: 'flex', fontSize: 13, fontWeight: "500", flexWrap: 'nowrap', fontFamily: 'Poppins' }}>Indicator: </Typography>
                                         <FormControl fullWidth>
                                             <Select
                                                 disableUnderline

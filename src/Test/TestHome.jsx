@@ -86,64 +86,89 @@ const resources = [
 ];
 var items = [
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/2264406732_3cecc0db1d_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/2264406732_3cecc0db1d_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/6348257882_b73c42cc8a_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/6348257882_b73c42cc8a_o.jpg`,
         id: 1,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/BUDD 051.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/BUDD 051.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/4777735545_22a1f31eff_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/4777735545_22a1f31eff_o.jpg`,
         id: 2,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/BUDD 074.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/BUDD 074.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/7165529455_e0ed3b3734_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/7165529455_e0ed3b3734_o.jpg`,
         id: 3,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0011.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0011.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000018614_6e9c2a9c44_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000018614_6e9c2a9c44_o.jpg`,
         id: 4,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0028.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0028.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000067815_2fc18dd081_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000067815_2fc18dd081_o.jpg`,
         id: 5,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0064.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/DSC_0064.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/30111128180_9a0be87761_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/30111128180_9a0be87761_o.jpg`,
         id: 6,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/Farmer and lady.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/Farmer and lady.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/42757540094_8bba8fa966_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/42757540094_8bba8fa966_o.jpg`,
         id: 7,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/IMG_3379.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/IMG_3379.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425798842_884ba83b08_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425798842_884ba83b08_o.jpg`,
         id: 8,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/IMG_3391.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/IMG_3391.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425824002_0ac39741f3_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425824002_0ac39741f3_o.jpg`,
         id: 9,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/pexels-dinukagunawardana-17903073.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/pexels-dinukagunawardana-17903073.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43473969021_935275495b_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43473969021_935275495b_o.jpg`,
         id: 10,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/pexels-ramesh-nimsara-kariyawasam-623579687-17396316.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/pexels-ramesh-nimsara-kariyawasam-623579687-17396316.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/49596659048_5f8a5599c6_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/49596659048_5f8a5599c6_o.jpg`,
         id: 11,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/Sri Lanka.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/Sri Lanka/Sri Lanka.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/Advisory Panel cover page 2.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Advisory Panel cover page 2.jpg`,
         id: 12,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
+        id: 13,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
+        id: 14,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
+        id: 15,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
+        id: 16,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
+        id: 17,
     },
 ];
 // const types = [
@@ -165,21 +190,21 @@ const ImageOverlay = styled("span")(({ theme }) => ({
 const slides = [
     {
         image: `${process.env.PUBLIC_URL}/images/banner.png`,
-        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        title: "Atlas of Climate Adaptation in Indian Agriculture",
         link: "/services",
         buttonText: "Explore the Atlas",
         secondaryLink: "/contact",
     },
     {
         image: `${process.env.PUBLIC_URL}/images/banner.png`,
-        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        title: "Atlas of Climate Adaptation in Indian Agriculture",
         link: "/monitoring",
         buttonText: "Explore the Atlas",
         secondaryLink: "/support",
     },
     {
         image: `${process.env.PUBLIC_URL}/images/banner.png`,
-        title: "Atlas of Climate Adaptation in South Asian Agriculture",
+        title: "Atlas of Climate Adaptation in Indian Agriculture",
         link: "/ai-solutions",
         buttonText: "Explore the Atlas",
         secondaryLink: "/learn",
@@ -523,34 +548,33 @@ function TestHome(props) {
         autoplaySpeed: 8000,
         arrows: false,
     };
-    const partnerLogos = [3];
-    const contryLogos = [8];
+    const partnerLogos = [7];
+    const contryLogos = [4];
     const { mode } = useContext(ThemeContext);
     if (loading) {
         return <LoadingPage />; // Show loading screen while loading is true
     }
-    // const PopperMessage = () => (
-    // <Box
-    // sx={{
-    // position: "absolute",
-    // top: 10,
-    // right: 20,
-    // backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
-    // color: mode === "dark" ? "#e0e0e0" : "#ffffff",
-    // padding: "10px",
-    // borderRadius: "5px",
-    // width: "250px",
-    // textAlign: "center",
-    // zIndex: 1000,
-    // }}
-    // >
-    // <Typography variant="body2" fontStyle={"italic"}>
-    // {" "}
-    // <GppMaybeIcon fontSize="11px" sx={{ marginX: "2px", marginY: 0 }} />
-    // Disclaimer: This is an internal test version of ACASA. Please do not cite or quote the data.
-    // </Typography>
-    // </Box>
-    // );
+    const PopperMessage = () => (
+        <Box
+            sx={{
+                position: "absolute",
+                top: 10,
+                right: 20,
+                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
+                color: mode === "dark" ? "#e0e0e0" : "#ffffff",
+                padding: "10px",
+                borderRadius: "5px",
+                width: "250px",
+                textAlign: "center",
+                zIndex: 1000,
+            }}
+        >
+            <Typography variant="body2" fontStyle={"italic"}>
+                {" "}
+                This is an output of the project 'Atlas of Climate Adaptation in South Asian Agriculture' (ACASA)
+            </Typography>
+        </Box>
+    );
     return (
         <Box
             sx={{
@@ -645,7 +669,7 @@ function TestHome(props) {
                                 ml: 3,
                                 mt: 5,
                                 p: 2,
-                                bottom: 50,
+                                top: 50,
                                 width: "55vw",
                                 flexDirection: "column",
                                 textAlign: { sm: "left", md: "left" },
@@ -656,13 +680,12 @@ function TestHome(props) {
                                 sx={(theme) => ({
                                     color: theme.palette.mode === "dark" ? "#fff" : "#ffffff",
                                     fontWeight: "bold",
-                                    marginTop: '200px',
                                     fontSize: '48px',
                                     fontFamily: '"Poppins", sans-serif',
                                     textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
                                 })}
                             >
-                                Atlas of Climate Adaptation in South Asian Agriculture
+                                Atlas of Climate Adaptation in Indian Agriculture
                             </Typography>
                             <Typography
                                 variant="subtitle1"
@@ -708,7 +731,7 @@ function TestHome(props) {
                                     "mb": 2,
                                     "fontSize": "18px",
                                     "flexShrink": 0,
-                                    "fontFamily":'Poppins',
+                                    "fontFamily": 'Poppins',
                                     "color": theme.palette.mode === "dark" ? "#ffffff" : "#000000",
                                     "fontWeight": "600",
                                     "backgroundColor": theme.palette.mode === "dark" ? "#B88F1A" : "#fece2f",
@@ -724,14 +747,13 @@ function TestHome(props) {
                         <Box
                             sx={{
                                 position: "absolute",
-                                top: "300px",
+                                bottom: 20,
                                 right: 20,
-                                transform: "translateY(-50%)",
                                 display: "flex",
-                                flexDirection: "column",
+                                flexDirection: "row",
                                 gap: 2,
                                 zIndex: 3,
-                                width: { xs: "80%", sm: "335px" },
+                                width: { xs: "80%", sm: "1050px" },
                             }}
                         >
                             {rightCards.map((card, idx) => (
@@ -747,14 +769,14 @@ function TestHome(props) {
                                         <CardMedia component="img" height="45px" width="45px" image={card.image} alt={card.title} />
                                     )}
                                     <CardContent>
-                                        <Typography variant="body2" color="text.secondary" sx={{ fontFamily: '"Poppins", sans-serif',}}>
+                                        <Typography variant="body2" color="text.secondary" sx={{ fontFamily: '"Poppins", sans-serif', }}>
                                             {card.description}
                                         </Typography>
                                     </CardContent>
                                 </Card>
                             ))}
                         </Box>
-                        {/* <PopperMessage /> */}
+                        <PopperMessage />
                     </Paper>
                     {/* <Box
                         sx={{
@@ -1009,8 +1031,8 @@ function TestHome(props) {
                             color: theme.palette.text.primary,
                             fontFamily: '"Poppins", sans-serif',
                             mt: 2,
-                            fontSize:'24px!important',
-                            fontWeight:'500',
+                            fontSize: '24px!important',
+                            fontWeight: '500',
                         }}
                     >
                         Local-Level Maps to Inform the Real-World Action
@@ -1024,7 +1046,7 @@ function TestHome(props) {
                             lineHeight: 1.6,
                         }}
                     >
-                        Our interactive maps are designed to support government agencies, insurance providers, researchers, and service providers in aligned disciplines, agri-food industries, international and national donors, and organizations focused on climate adaptation. They can visualize climate-related risks and adaptation options at a high resolution, down to the sub-provincial level. Built on climate, crop, livestock, socioeconomic data, and adaptation options, our maps enable users to plan effectively and adapt quickly.
+                        Our interactive maps are designed to support government agencies, insurance providers, researchers, and service providers in aligned disciplines, agri-food industries, international and national donors, and organizations focused on climate adaptation. They can visualize climate-related risks and adaptation options at a high resolution, down to the sub-district level. Built on climate, crop, livestock, socioeconomic data, and adaptation options, our maps enable users to plan effectively and adapt quickly.
                     </Typography>
                 </Box>
             </Container>
@@ -1032,7 +1054,7 @@ function TestHome(props) {
                 <Box sx={{ mt: 4, mb: 4 }}>
                     <Grid container spacing={2}>
                         {[
-                            { emoji: "🔍", text: "Zoom in to view risks at the local / sub-provincial scale.", },
+                            { emoji: "🔍", text: "Zoom in to view risks at the local / sub-district scale.", },
                             { emoji: "🌾", text: "Visualise climate hazards", },
                             { emoji: "🧑‍🌾", text: "Identify vulnerable regions for key crops and livestock", },
                             { emoji: "🛠", text: "Discover locally relevant adaptation options" },
@@ -1083,7 +1105,7 @@ function TestHome(props) {
                     <Container maxWidth="lg">
                         <img
                             className="w-100"
-                            src={`${process.env.PUBLIC_URL}/ACASA_Approach_SL.svg`}
+                            src={`${process.env.PUBLIC_URL}/ACASA_Approach_IN.svg`}
                             style={{
                                 filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(180deg) brightness(100%) contrast(85%)" : "none",
                             }}
@@ -1221,8 +1243,8 @@ function TestHome(props) {
                                                                     : "#000",
                                                             fontSize: "32px",
                                                             fontWeight: "500",
-                                                            marginBottom:'0px',
-                                                            paddingLeft:'20px'
+                                                            marginBottom: '0px',
+                                                            paddingLeft: '20px'
                                                         },
                                                         "& p": {
                                                             fontFamily: '"Poppins", sans-serif',
@@ -1257,14 +1279,14 @@ function TestHome(props) {
                                                                         : "#000",
                                                                 fontSize: "32px",
                                                                 fontWeight: "500",
-                                                                paddingLeft:'20px',
+                                                                paddingLeft: '20px',
                                                             },
                                                             "& p": {
                                                                 fontFamily: '"Poppins", sans-serif',
                                                                 fontSize: "18px",
                                                                 lineHeight: 1.6,
                                                                 fontWeight: "400",
-                                                                paddingLeft:'0px',
+                                                                paddingLeft: '0px',
                                                             },
                                                             "& h5": {
                                                                 fontFamily: '"Poppins", sans-serif',
@@ -1334,7 +1356,7 @@ function TestHome(props) {
                             color: "#ffffff",
                             mt: 2,
                             mb: 4,
-                            fontFamily:'Poppins',
+                            fontFamily: 'Poppins',
                             "&:hover": {
                                 bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
                             },
@@ -1537,7 +1559,7 @@ function TestHome(props) {
                         color: "#ffffff",
                         mt: 2,
                         mb: 5,
-                        fontFamily:'Poppins',
+                        fontFamily: 'Poppins',
                         "&:hover": {
                             bgcolor: theme.palette.mode === "dark" ? "#4ba046" : "#3d8b3a",
                         },

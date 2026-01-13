@@ -551,7 +551,7 @@ function MapViewer({
       }
       layerRefs.current[index].push(geojsonFeatureGroup);
       // --- Always fit to extent after geojson ---
-      map.fitBounds(bounds, { padding: [50, 50], animate: true });
+      map.fitBounds(bounds, { padding: [20, 20], animate: true });
       _.debounce(() => map.invalidateSize(), 100)();
       // --- GeoTIFF rendering (only if available) ---
       if (tiff && !tiff.noGeoTiff && tiff.arrayBuffer && tiff.metadata) {

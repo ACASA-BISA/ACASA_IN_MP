@@ -1055,7 +1055,10 @@ const DataGlance = () => {
                                 mapInstances.current[index].fitBounds([
                                     [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                                     [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
-                                ], { padding: [50, 50] });
+                                ], {
+                                    paddingTopLeft: [20, 20],
+                                    paddingBottomRight: [20, 50],
+                                });
                             }
                         },
                         updateFullscreenButton: (button) => updateFullscreenButton(button, isFullscreen[index]),
@@ -1280,7 +1283,7 @@ const DataGlance = () => {
                         map.fitBounds([
                             [memoizedGeojsonData.bbox[1], memoizedGeojsonData.bbox[0]],
                             [memoizedGeojsonData.bbox[3], memoizedGeojsonData.bbox[2]],
-                        ]);
+                        ], { padding: [40, 40] });
                     }
                 }
 
@@ -1982,7 +1985,7 @@ const DataGlance = () => {
                                 minWidth: 'auto',
                                 fontFamily: "Poppins",
                             }}>
-                                <Typography sx={{ fontSize: 13, fontWeight: "500", fontFamily: "Poppins",}}>Metric: </Typography>
+                                <Typography sx={{ fontSize: 13, fontWeight: "500", fontFamily: "Poppins", }}>Metric: </Typography>
                                 <FormControl fullWidth>
                                     <Select
                                         disableUnderline

@@ -709,7 +709,7 @@ function Test() {
                                                                 value={0}
                                                                 sx={{ fontSize: "14px", paddingY: "2px", fontFamily: 'Poppins', }}
                                                             >
-                                                                Province
+                                                                State
                                                             </MenuItem>
                                                             {states.map((a) => (
                                                                 <MenuItem
@@ -928,7 +928,7 @@ function Test() {
                                                                 <span
                                                                     style={{
                                                                         fontFamily: "Poppins",
-                                                                        fontSize: "12px",
+                                                                        fontSize: "13px",
                                                                         fontStyle: "normal",
                                                                         fontWeight: 500,
                                                                         lineHeight: "normal",
@@ -987,7 +987,7 @@ function Test() {
                                                                 <span
                                                                     style={{
                                                                         fontFamily: "Poppins",
-                                                                        fontSize: "12px",
+                                                                        fontSize: "13px",
                                                                         fontStyle: "normal",
                                                                         fontWeight: 500,
                                                                         lineHeight: "normal",
@@ -1093,7 +1093,7 @@ function Test() {
                                                                                 <span
                                                                                     style={{
                                                                                         fontFamily: "Poppins",
-                                                                                        fontSize: "12px",
+                                                                                        fontSize: "13px",
                                                                                         fontStyle: "normal",
                                                                                         fontWeight: 500,
                                                                                         lineHeight: "normal",
@@ -1179,7 +1179,7 @@ function Test() {
                                                                         <span
                                                                             style={{
                                                                                 fontFamily: "Poppins",
-                                                                                fontSize: "12px",
+                                                                                fontSize: "13px",
                                                                                 fontStyle: "normal",
                                                                                 fontWeight: 500,
                                                                                 lineHeight: "normal",
@@ -1261,7 +1261,7 @@ function Test() {
                                                                     <span
                                                                         style={{
                                                                             fontFamily: "Poppins",
-                                                                            fontSize: "12px",
+                                                                            fontSize: "13px",
                                                                             fontStyle: "normal",
                                                                             fontWeight: 500,
                                                                             lineHeight: "normal",
@@ -1347,7 +1347,7 @@ function Test() {
                                                                         <span
                                                                             style={{
                                                                                 fontFamily: "Poppins",
-                                                                                fontSize: "12px",
+                                                                                fontSize: "13px",
                                                                                 fontStyle: "normal",
                                                                                 fontWeight: 500,
                                                                                 lineHeight: "normal",
