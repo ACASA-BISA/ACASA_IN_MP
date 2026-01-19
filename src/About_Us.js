@@ -29,9 +29,10 @@ const logoStyle2 = {
 
 const logoStyle3 = {
   width: "auto",
-  height: 80,
+  height: 100,
   margin: "auto",
   marginTop: 20,
+  paddingBottom: 10,
 };
 const logoStyle4 = {
   width: "auto",
@@ -73,7 +74,7 @@ export default function AboutUs() {
                 fontFamily: "Poppins",
               })}
             >
-              About ACASA
+              About ACASA-India
             </Typography>
           </Box>
           <Box
@@ -146,7 +147,7 @@ export default function AboutUs() {
                   fontSize: "18px",
                 })}
               >
-                <Link href={`${process.env.PUBLIC_URL}/SL-ACASA Brochure_03112025.pdf`} underline="none" color="#4b9e44" target="_blank">
+                <Link href={`${process.env.PUBLIC_URL}/V2 Atlas of Climate Adaptation Indian Agriculture  (Brochure (A4 Half Fold) - 420 mm x 297 mm) (1) 1.pdf`} underline="none" color="#4b9e44" target="_blank">
                   ACASA, India Brochure
                 </Link>
               </Typography>
@@ -166,7 +167,7 @@ export default function AboutUs() {
                   color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
                   fontWeight: "600",
                   fontFamily: "Poppins",
-                  fontSize:'24px',
+                  fontSize: '24px',
                 })}
               >
                 Workstreams
@@ -357,8 +358,8 @@ export default function AboutUs() {
                     sx={(theme) => ({
                       "m": 1,
                       "ml": 0,
-                      "width": "21vw",
-                      "height": 200,
+                      "width": "92.5vw",
+                      "height": 150,
                       "transition": "0.3s cubic-bezier(.47,1.64,.41,.8)",
                       "&:hover": {
                         boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
@@ -368,19 +369,29 @@ export default function AboutUs() {
                     elevation={0}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                      <img src={`${process.env.PUBLIC_URL}/south-asia-6.svg`} style={logoStyle3} alt="risk" loading="lazy" />
-                      <Typography
-                        sx={(theme) => ({
-                          color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
-                          fontSize: "18px",
-                          fontFamily: "Poppins",
-                          margin: 2,
-                          marginRight: 3,
-                          marginLeft: 3,
-                        })}
-                      >
-                        Indian Council of Agricultural Research (ICAR)
-                      </Typography>
+                      <img src={`${process.env.PUBLIC_URL}/Home_imgs/India logos/ICAR-India.png`} style={logoStyle3} alt="risk" loading="lazy" />
+                      <Paper
+                        sx={(theme) => ({ 
+                          gap: 2,
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "#2f6742"
+                              : "#4ba046"
+                        })}>
+                        <Typography
+                          sx={(theme) => ({
+                            color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
+                            fontSize: "18px",
+                            fontFamily: "Poppins",
+                            margin: 2,
+                            marginRight: 3,
+                            marginLeft: 3,
+                            fontWeight: "bold",
+                          })}
+                        >
+                          Indian Council of Agricultural Research (ICAR) | New Delhi, Delhi
+                        </Typography>
+                      </Paper>
                     </Box>
                   </Paper>
                 </Link>
@@ -471,7 +482,7 @@ export default function AboutUs() {
                 color: theme.palette.mode === "dark" ? "#c4c4c4" : "#111111",
                 fontWeight: "600",
                 fontFamily: "Poppins",
-                fontSize:'24px',
+                fontSize: '24px',
                 marginTop: 2,
                 marginBottom: 2,
               })}
@@ -491,8 +502,8 @@ export default function AboutUs() {
                   sx={(theme) => ({
                     "m": 1,
                     "ml": 0,
-                    "width": "21vw",
-                    "minHeight": 245,
+                    "width": "30vw",
+                    "minHeight": 200,
                     "transition": "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
                       boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
@@ -529,8 +540,8 @@ export default function AboutUs() {
                   sx={(theme) => ({
                     "m": 1,
                     "ml": 0,
-                    "width": "21vw",
-                    "minHeight": 245,
+                    "width": "30vw",
+                    "minHeight": 200,
                     "transition": "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
                       boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
@@ -567,8 +578,8 @@ export default function AboutUs() {
                   sx={(theme) => ({
                     "m": 1,
                     "ml": 0,
-                    "width": "21vw",
-                    "minHeight": 245,
+                    "width": "30vw",
+                    "minHeight": 200,
                     "transition": "0.3s cubic-bezier(.47,1.64,.41,.8)",
                     "&:hover": {
                       boxShadow: theme.palette.mode === "dark" ? "0 4px 15px 0 rgba(255, 255, 255, 0.08)" : "0 4px 20px 0 rgba(0,0,0,0.12)",
@@ -1102,7 +1113,7 @@ export default function AboutUs() {
                 sx={(theme) => ({
                   m: 1,
                   ml: 0,
-                  width: "21vw",
+                  width: "100vw",
                   height: "auto",
                   backgroundColor: theme.palette.mode === "dark" ? "#322b32" : "#fff7ff",
                 })}
@@ -1112,7 +1123,7 @@ export default function AboutUs() {
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    textAlign: { sm: "center", md: "center" },
+                    //textAlign: { sm: "center", md: "center" },
                   }}
                 >
                   <Typography

@@ -55,15 +55,15 @@ export default function StickyFooter() {
         <Box sx={{ width: { xs: "100%", sm: "100%" }, mb: 2 }}>
           <Box
             sx={{
-              minHeight: "20vh",
+              //minHeight: "20vh",
               display: "flex",
               flexDirection: "row",
               margin: 6,
               fontFamily: "Poppins",
             }}
           >
-            <img src={`${process.env.PUBLIC_URL}/acasa-white.svg`} style={logoStyle} alt="logo of acasa" loading="lazy" />
-            <Divider textAlign="center" orientation="vertical" flexItem="true" sx={{ bgcolor: "#555555", borderRightWidth: 2, margin: 2, fontFamily: "Poppins", }} />
+            {/*<img src={`${process.env.PUBLIC_URL}/acasa-white.svg`} style={logoStyle} alt="logo of acasa" loading="lazy" />
+            <Divider textAlign="center" orientation="vertical" flexItem="true" sx={{ bgcolor: "#555555", borderRightWidth: 2, margin: 2, fontFamily: "Poppins", }} />*/}
             <Box sx={{ width: "100%" }}>
               <Typography
                 gutterBottom
@@ -76,8 +76,8 @@ export default function StickyFooter() {
                   fontFamily: "Poppins",
                 }}
               >
-                To address the vulnerability of South Asian countries to climatic risks, the Borlaug Institute for South Asia (BISA) with support from Gates Foundation is working with national agriculture research systems of the region
-                to develop ACASA.
+                ACASA-India is co-developed and co-owned by the Indian Council of Agricultural Research (ICAR)-led
+                NARES and the Borlaug Institute for South Asia (BISA) - International Maize and Wheat Improvement center (CIMMYT).
               </Typography>
               <Button
                 variant="contained"
@@ -163,7 +163,15 @@ export default function StickyFooter() {
                     </TableCell>
                     <TableCell align="left">
                       <Typography variant="subtitle1" sx={{ color: "#ffffff", fontWeight: "600", fontFamily: "Poppins", }} ml={2}>
-                        V. K. Singh, Director
+                        Dr V. K. Singh,
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow key="2" sx={{ "& td": { border: 0 } }}>
+                    <TableCell align="left"></TableCell>
+                    <TableCell align="left">
+                      <Typography variant="subtitle1" sx={{ color: "#ffffff", fontFamily: "Poppins", fontSize: '16px' }} ml={2}>
+                        Director
                       </Typography>
                     </TableCell>
                   </TableRow>
@@ -206,7 +214,15 @@ export default function StickyFooter() {
                     </TableCell>
                     <TableCell align="left">
                       <Typography variant="subtitle1" sx={{ color: "#ffffff", fontWeight: "600", fontFamily: "Poppins", }} ml={2}>
-                        C. A. Rama Rao, Principal Scientist
+                        Dr C. A. Rama Rao, 
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                   <TableRow key="2" sx={{ "& td": { border: 0 } }}>
+                    <TableCell align="left"></TableCell>
+                    <TableCell align="left">
+                      <Typography variant="subtitle1" sx={{ color: "#ffffff", fontFamily: "Poppins", fontSize: '16px' }} ml={2}>
+                        Principal Scientist
                       </Typography>
                     </TableCell>
                   </TableRow>

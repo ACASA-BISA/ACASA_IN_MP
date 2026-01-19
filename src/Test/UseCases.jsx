@@ -73,21 +73,21 @@ function UseCases() {
                         <h1 style={{
                             color: theme.palette.text.primary,
                         }}>
-                            Use Cases of <span>ACASA </span>
+                            Use Cases of <span>ACASA-India</span>
                         </h1>
                         <p style={{
                             color: theme.palette.text.primary,
                         }}>
-                            ACASA is a unique platform that provides an integrated assessment of commodity-specific granular climate risk profiles and information on adaptation
-                            options for South Asian agriculture. This is done for region’s major agricultural and livestock commodities at a 5 km resolution. In addition,
+                            ACASA-India is a unique platform that provides an integrated assessment of commodity-specific granular climate risk profiles and information on adaptation
+                            options for Indian agriculture. This is done for region’s major agricultural and livestock commodities at a 5 km resolution. In addition,
                             it also identifies regions where adaptation benefits would emerge through gender-friendly technology adoption and would curtail maladaptation.
                         </p>
                         <p style={{
                             color: theme.palette.text.primary,
-                        }}>Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across South Asia.
-                            Therefore, ACASA provides a unique opportunity for various stakeholders to meet their potential needs in broader areas of climate risk management
+                        }}>Our adaptation options are rigorously formulated from the relevant literature and validated stakeholder consultations across India.
+                            Therefore, ACASA-India provides a unique opportunity for various stakeholders to meet their potential needs in broader areas of climate risk management
                             and adaptation in agriculture. The open-access nature of the Atlas promotes knowledge dissemination and unrestricted use for desired purposes.
-                            ACASA data can be freely downloaded in a tabular, user-friendly format with geographic information system (GIS) datasets for specific applications.</p>
+                            ACASA-India data can be freely downloaded in a tabular, user-friendly format with geographic information system (GIS) datasets for specific applications.</p>
                         <p style={{
                             color: theme.palette.text.primary,
                         }}>We conducted a dedicated ‘Use Case Workshop’ on Oct 1-3, 2024, in Colombo, Sri Lanka, for potential stakeholders who will put the Atlas into use.
@@ -105,7 +105,7 @@ function UseCases() {
                             content: (
                                 <>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
+                                        ACASA-India can be useful for climate risk profiling and regional adaptation prioritisation. Insights from ACASA would help government agencies determine future investment requirements for climate risk mitigation and regional scaling opportunities.
                                     </Typography>
                                     <Typography variant="h5" component="h5" sx={{ fontSize: '18px', textAlign: 'left', fontWeight: '500' }}>
                                         Evidence-based policymaking:
@@ -117,7 +117,7 @@ function UseCases() {
                                         National Adaptation Plan:
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the National Adaptation Plans of respective countries.
+                                        Atlas could provide relevant stakeholder-validated adaptation options to be integrated into the adaptation programmes at different scales.
                                     </Typography>
                                     <Typography variant="h5" component="h5" sx={{ fontSize: '18px', textAlign: 'left', fontWeight: '500' }}>
                                         Climate-Smart Villages:
@@ -135,7 +135,7 @@ function UseCases() {
                             content: (
                                 <>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Empowering researchers with high-resolution, multi-dimensional data for robust climate agriculture analysis in South Asia.
+                                        Empowering researchers with high-resolution, multi-dimensional data for robust climate agriculture analysis in India.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Agricultural research
@@ -147,7 +147,7 @@ function UseCases() {
                                         Impact evaluation and assessment
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Atlas can enable hotspot identification and gendered vulnerability assessments at granular levels, ideal for targeted fieldwork or impact evaluation. ACASA’s repository of evidence on climate-smart agriculture practices allows researchers to validate hypotheses and derive regionally relevant findings.
+                                        Atlas can enable hotspot identification and gendered vulnerability assessments at granular levels, ideal for targeted fieldwork or impact evaluation. ACASA-India’s repository of evidence on climate-smart agriculture practices allows researchers to validate hypotheses and derive regionally relevant findings.
                                     </Typography>
                                 </>
                             ),
@@ -159,19 +159,19 @@ function UseCases() {
                             content: (
                                 <>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA provides open-access and freely downloadable products on climate risk management in agriculture.
+                                        ACASA-India provides open-access and freely downloadable products on climate risk management in agriculture.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Strengthen climate action
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA can help civil societies prioritize the interventions for climate action and promote climate-resilient agricultural practices and technologies as an adaptation measure to climate change.
+                                        ACASA-India can help civil societies prioritize the interventions for climate action and promote climate-resilient agricultural practices and technologies as an adaptation measure to climate change.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Climate-related proposal
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA can provide detailed insights and information in developing climate context for new project proposals.
+                                        ACASA-India can provide detailed insights and information in developing climate context for new project proposals.
                                     </Typography>
                                 </>
                             ),
@@ -195,7 +195,7 @@ function UseCases() {
                                         Development of Agri-financing products
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Banks and MFIs can use ACASA to de-risk loans by aligning credit products with low-risk, high-solvency regions. Data on cost-benefit and scalability supports the design of climate-smart loan products and blended finance schemes.
+                                        Banks and MFIs can use ACASA-India to de-risk loans by aligning credit products with low-risk, high-solvency regions. Data on cost-benefit and scalability supports the design of climate-smart loan products and blended finance schemes.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Gender-sensitive credit scheme
@@ -213,19 +213,19 @@ function UseCases() {
                             content: (
                                 <>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA will provide multi-lateral agencies with strategic data insights and directions for adaptation investments in South Asia and facilitate more effective project design and planning.
+                                        ACASA-India will provide multi-lateral agencies with strategic data insights and directions for adaptation investments in India and facilitate more effective project design and planning.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Climate finance
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Agencies can systematically integrate ACASA adaptation recommendations in their climate finance planning process to align with the Paris Agreement and sustainable development goals. Data will support agencies in focusing on targeted investments such as climate-resilient food systems, landscapes, and livelihoods, especially in regions with high adaptation benefits.
+                                        Agencies can systematically integrate ACASA-India adaptation recommendations in their climate finance planning process to align with the Paris Agreement and sustainable development goals. Data will support agencies in focusing on targeted investments such as climate-resilient food systems, landscapes, and livelihoods, especially in regions with high adaptation benefits.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Targeted high-impact investments
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        Donors can utilize ACASA to prioritize high-impact locations for climate-smart agriculture projects benefiting small-scale farmers and promote adaptation strategies.
+                                        Donors can utilize ACASA-India to prioritize high-impact locations for climate-smart agriculture projects benefiting small-scale farmers and promote adaptation strategies.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Gender-intentional adaptations
@@ -237,7 +237,7 @@ function UseCases() {
                                         Monitoring and evaluation
                                     </Typography>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA is an innovative tool for agencies as they constantly seek information and expertise in improving the effectiveness and impact of their initiative. Atlas provides accessible and actionable data through open-access, user-friendly tables and maps for informed resource allocation and structured interventions.
+                                        ACASA-India is an innovative tool for agencies as they constantly seek information and expertise in improving the effectiveness and impact of their initiative. Atlas provides accessible and actionable data through open-access, user-friendly tables and maps for informed resource allocation and structured interventions.
                                     </Typography>
                                 </>
                             ),
@@ -273,7 +273,7 @@ function UseCases() {
                             content: (
                                 <>
                                     <Typography component="p" sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        ACASA is committed to ensuring a sustainable agri-food industry and inclusive supply chains.
+                                        ACASA-India is committed to ensuring a sustainable agri-food industry and inclusive supply chains.
                                     </Typography>
                                     <Typography variant="h5" component="h5">
                                         Climate-friendly supply chains
@@ -376,12 +376,12 @@ function UseCases() {
                                                         textAlign: 'left'
                                                     },
                                                     "& h5": {
-                                                         fontFamily: "Poppins",
+                                                        fontFamily: "Poppins",
                                                         color: theme.palette.mode === "dark" ? "#fff" : "#000",
                                                         margin: theme.spacing(2, 0, 1),
                                                         fontSize: "24px",
                                                         textAlign: 'left',
-                                                        fontWeight:'600',
+                                                        fontWeight: '600',
                                                     },
                                                 }}
                                             >

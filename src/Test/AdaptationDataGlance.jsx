@@ -220,6 +220,7 @@ const DataGlance = () => {
             commodity_id: selectedCommodityId || null,
             country_id: selectedCountryId || null,
             state_id: null,
+            analysis_scope_id: 1,
             climate_scenario_id: selectedScenarioId || null,
             visualization_scale_id: selectedVisualizationScaleId || null,
             intensity_metric_id: selectedIntensityMetricId || null,
@@ -1323,7 +1324,7 @@ const DataGlance = () => {
                 if (fetchedCommodities.length > 0) {
                     const activeCommodities = fetchedCommodities.filter((c) => c.status);
                     if (activeCommodities.length > 0) {
-                        commodityId = activeCommodities[0]?.commodity_id;
+                        commodityId = activeCommodities[1]?.commodity_id;
                         setSelectedCommodityId(commodityId);
                         await fetchAdaptations(commodityId); // This now sets selectedAdaptations internally
                     } else {

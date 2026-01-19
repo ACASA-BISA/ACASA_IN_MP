@@ -196,10 +196,16 @@ function Test() {
         if (selectedScopeId) {
             if (+selectedScopeId === 2) {
                 fetchData(`lkp/specific/risks`, setRisks);
+                fetchData(`lkp/specific/adaptations`, setAdaptations);
             } else {
+                fetchData(
+                    `lkp/specific/adaptations?commodity_id=${selectedCommodityId}&commodity_type_id=1`,
+                    setAdaptations
+                );
                 fetchData(`lkp/specific/risks?commodity_id=${selectedCommodityId}`, setRisks);
             }
         } else {
+            setAdaptations([]);
             setRisks([]);
         }
     }, [selectedScopeId]);
@@ -263,9 +269,8 @@ function Test() {
                 );
             setFilteredCommodities(filtered);
             if (filtered.length > 0 && (!selectedCommodityId || !filtered.some((c) => c.commodity_id === selectedCommodityId))) {
-                {/*let index = +selectedCommodityTypeId === 1 ? 1 : 0;
-                setSelectedCommodityId(filtered[index]?.commodity_id || "");*/}
-                setSelectedCommodityId(filtered[0]?.commodity_id || "");
+                let index = +selectedCommodityTypeId === 1 ? 1 : 0;
+                setSelectedCommodityId(filtered[index]?.commodity_id || "");
             }
         }
     }, [selectedCommodityTypeId, commodities, selectedCommodityId]);
@@ -1300,7 +1305,7 @@ function Test() {
                                     <ListSubheader component="div" id="nested-list-subheader7"></ListSubheader>
                                     <ListItemButton
                                         onClick={() => handleSidebarToggle("adaptation")}
-                                        disabled={isLoading || mapLoading || !selectedCommodityId || +selectedScopeId === 2}
+                                        disabled={isLoading || mapLoading || !selectedCommodityId}
                                         sx={getListItemStyle("adaptation")}
                                     >
                                         <ListItemIcon

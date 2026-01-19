@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Box, Typography, Paper, Menu, MenuItem, Button } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 const logoStyle3 = {
   width: "auto",
@@ -31,7 +33,7 @@ const partnersData = {
     img: `${process.env.PUBLIC_URL}/india.png`,
     name: "India",
     menuItems: [
-      "Indian Council of Agricultural Research (ICAR) | New Delhi, Delhi",
+      //"Indian Council of Agricultural Research (ICAR) | New Delhi, Delhi",
       "ICAR- Central Research Institute for Dryland Agriculture (CRIDA) | Telangana, Hyderabad",
       "ICAR-Indian Agricultural Research Institute (IARI) | New Delhi, Delhi",
       "ICAR-National Dairy Research Institute (NDRI) | Karnal, Haryana",
@@ -42,6 +44,18 @@ const partnersData = {
       "ICAR- National Institute of Agricultural Economics and Policy Research (NIAP) | New Delhi, Delhi",
       "Tamil Nadu Agricultural University (TNAU) | Coimbatore, Tamil Nadu",
     ],
+    links: [
+      //"https://www.icar.org.in/",
+      "https://www.icar-crida.res.in/",
+      "https://iari.res.in/en/index.php",
+      "https://ndri.res.in/",
+      "https://niam.res.in/",
+      "https://ciba.res.in/",
+      "https://www.iifsr.org.in/",
+      "https://icar-crri.in/",
+      "https://niap.res.in/",
+      "https://tnau.ac.in/",
+    ]
   },
   nepal: {
     img: `${process.env.PUBLIC_URL}/nepal.svg`,
@@ -107,7 +121,7 @@ const PartnersContributors = ({ country }) => {
     setAnchorEl(null);
   };
 
-  return (
+  /*return (
     <Paper sx={{ m: 1, ml: 0, width: "21vw", height: 200 }} elevation={0}>
       <Box
         sx={{
@@ -155,6 +169,52 @@ const PartnersContributors = ({ country }) => {
         </Menu>
       </Box>
     </Paper>
+  );
+};*/
+
+  return (
+    <Box
+      sx={{
+        "m": 4,
+        "ml": 0,
+        borderRadius: 2,
+        display: 'grid',
+        width: "92.5vw",
+        gap: 2,
+      }}
+    >
+      {countryData.menuItems.map((item, index) => (
+        <Paper key={index}
+          sx={(theme) => ({
+            backgroundColor:
+              index === countryData.menuItems.length - 1
+                ? theme.palette.mode === "dark"
+                  ? "rgba(255, 193, 7, 0.25)"
+                  : "rgba(255, 193, 7, 0.3)"
+                : theme.palette.mode === "dark"
+                  ? "rgba(47, 103, 66, 0.2)"
+                  : "rgba(75, 160, 70, 0.2)",
+          })}>
+          <Typography
+            component="a"
+            href={countryData.links[index]}
+            target="_blank"
+            rel="noopener noreferrer"
+            align="center"
+            sx={(theme) => ({
+              color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
+              fontSize: "18px",
+              fontFamily: "Poppins",
+              margin: 2,
+              textDecoration: "none",
+              display: "block",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            })}
+          >{item}</Typography></Paper>
+      ))
+      }</Box>
   );
 };
 

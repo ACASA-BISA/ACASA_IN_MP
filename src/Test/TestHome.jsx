@@ -86,13 +86,13 @@ const resources = [
 ];
 var items = [
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/6348257882_b73c42cc8a_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/6348257882_b73c42cc8a_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_1.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111926.jpg`,
         id: 1,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/4777735545_22a1f31eff_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/4777735545_22a1f31eff_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/India 2.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/India 2.jpg`,
         id: 2,
     },
     {
@@ -101,13 +101,13 @@ var items = [
         id: 3,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000018614_6e9c2a9c44_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000018614_6e9c2a9c44_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_2.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111553.jpg`,
         id: 4,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000067815_2fc18dd081_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/8000067815_2fc18dd081_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_3.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 112421.jpg`,
         id: 5,
     },
     {
@@ -136,39 +136,59 @@ var items = [
         id: 10,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/49596659048_5f8a5599c6_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/49596659048_5f8a5599c6_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_4.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 113020.jpg`,
         id: 11,
-    },
-    {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/Advisory Panel cover page 2.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Advisory Panel cover page 2.jpg`,
-        id: 12,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
         videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
-        id: 13,
+        id: 12,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
         videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
-        id: 14,
+        id: 13,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
         videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
-        id: 15,
+        id: 14,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
         videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
-        id: 16,
+        id: 15,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
         videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
+        id: 16,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/page3_Production Risk.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/page3_Production Risk.jpg`,
         id: 17,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/Pearl_millet.jpeg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Pearl_millet.jpeg`,
+        id: 18,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0396.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0396.jpg`,
+        id: 19,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/India.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/India.jpg`,
+        id: 20,
+    },
+    {
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.jpg`,
+        id: 21,
     },
 ];
 // const types = [
@@ -238,10 +258,9 @@ const useCases = [
         content: (
             <>
                 <Typography component="p">
-                    ACASA can be useful for climate risk profiling and regional adaptation
-                    prioritisation. Insights from ACASA would help government agencies
-                    determine future investment requirements for climate risk mitigation and
-                    regional scaling opportunities.
+                    ACASA-India can be useful for climate risk profiling and local adaptation
+                    prioritisation. Insights from ACASA-India would help government agencies
+                    determine future investment requirements for climate risk mitigation and scaling opportunities.
                 </Typography>
                 <Typography variant="h5" component="h5">
                     Evidence-based policymaking:
@@ -256,8 +275,8 @@ const useCases = [
                     National Adaptation Plan:
                 </Typography>
                 <Typography component="p">
-                    Atlas could provide relevant stakeholder-validated adaptation options to
-                    be integrated into the National Adaptation Plans of respective countries.
+                    Atlas could provide relevant stakeholder-validated adaptation options
+                    to be integrated into the adaptation programmes at different scales.
                 </Typography>
                 <Typography variant="h5" component="h5">
                     Climate-Smart Villages:
@@ -278,7 +297,7 @@ const useCases = [
 
                 <Typography component="p">
                     Empowering researchers with high-resolution, multi-dimensional data for
-                    robust climate agriculture analysis in South Asia.
+                    robust climate agriculture analysis in India.
                 </Typography>
 
                 <Typography variant="h5" component="h5">
@@ -296,7 +315,7 @@ const useCases = [
                 <Typography component="p">
                     Atlas can enable hotspot identification and gendered vulnerability
                     assessments at granular levels, ideal for targeted fieldwork or impact
-                    evaluation. ACASA’s repository of evidence on climate-smart agriculture
+                    evaluation. ACASA-India’s repository of evidence on climate-smart agriculture
                     practices allows researchers to validate hypotheses and derive regionally
                     relevant findings.
                 </Typography>
@@ -310,14 +329,14 @@ const useCases = [
         content: (
             <>
                 <Typography component="p">
-                    ACASA provides open-access and freely downloadable products on climate
+                    ACASA-India provides open-access and freely downloadable products on climate
                     risk management in agriculture.
                 </Typography>
                 <Typography variant="h5" component="h5">
                     Strengthen climate action
                 </Typography>
                 <Typography component="p">
-                    ACASA can help civil societies prioritize the interventions for climate
+                    ACASA-India can help civil societies prioritize the interventions for climate
                     action and promote climate-resilient agricultural practices and
                     technologies as an adaptation measure to climate change.
                 </Typography>
@@ -325,7 +344,7 @@ const useCases = [
                     Climate-related proposal
                 </Typography>
                 <Typography component="p">
-                    ACASA can provide detailed insights and information in developing climate
+                    ACASA-India can provide detailed insights and information in developing climate
                     context for new project proposals.
                 </Typography>
             </>
@@ -355,7 +374,7 @@ const useCases = [
                     Development of Agri-financing products
                 </Typography>
                 <Typography component="p">
-                    Banks and MFIs can use ACASA to de-risk loans by aligning credit products
+                    Banks and MFIs can use ACASA-India to de-risk loans by aligning credit products
                     with low-risk, high-solvency regions. Data on cost-benefit and
                     scalability supports the design of climate-smart loan products and
                     blended finance schemes.
@@ -377,15 +396,15 @@ const useCases = [
         content: (
             <>
                 <Typography component="p">
-                    ACASA will provide multi-lateral agencies with strategic data insights
-                    and directions for adaptation investments in South Asia and facilitate
+                    ACASA-India will provide multi-lateral agencies with strategic data insights
+                    and directions for adaptation investments in India and facilitate
                     more effective project design and planning.
                 </Typography>
                 <Typography variant="h5" component="h5">
                     Climate finance
                 </Typography>
                 <Typography component="p">
-                    Agencies can systematically integrate ACASA adaptation recommendations in
+                    Agencies can systematically integrate ACASA-India adaptation recommendations in
                     their climate finance planning process to align with the Paris Agreement
                     and sustainable development goals. Data will support agencies in
                     focusing on targeted investments such as climate-resilient food systems,
@@ -396,7 +415,7 @@ const useCases = [
                     Targeted high-impact investments
                 </Typography>
                 <Typography component="p">
-                    Donors can utilize ACASA to prioritize high-impact locations for
+                    Donors can utilize ACASA-India to prioritize high-impact locations for
                     climate-smart agriculture projects benefiting small-scale farmers and
                     promote adaptation strategies.
                 </Typography>
@@ -411,7 +430,7 @@ const useCases = [
                     Monitoring and evaluation
                 </Typography>
                 <Typography component="p">
-                    ACASA is an innovative tool for agencies as they constantly seek
+                    ACASA-India is an innovative tool for agencies as they constantly seek
                     information and expertise in improving the effectiveness and impact of
                     their initiative. Atlas provides accessible and actionable data through
                     open-access, user-friendly tables and maps for informed resource
@@ -458,7 +477,7 @@ const useCases = [
         content: (
             <>
                 <Typography component="p">
-                    ACASA is committed to ensuring a sustainable agri-food industry and
+                    ACASA-India is committed to ensuring a sustainable agri-food industry and
                     inclusive supply chains.
                 </Typography>
                 <Typography variant="h5" component="h5">
@@ -490,6 +509,8 @@ const partnertooltip = {
     7: "Indian Council of Agricultural Research",
     8: "Columbia University",
     9: "Evans School Policy Analysis and Research (EPAR), University of Washington",
+    10: "Atlas of Climate Adaptation in South Asian Agriculture (ACASA)",
+    11: "Borlaug Institute for South Asia (BISA)",
 }
 function TabPanel({ children, value, index }) {
     return (
@@ -548,7 +569,7 @@ function TestHome(props) {
         autoplaySpeed: 8000,
         arrows: false,
     };
-    const partnerLogos = [7];
+    const partnerLogos = [7, 10, 11, 4, 5];
     const contryLogos = [4];
     const { mode } = useContext(ThemeContext);
     if (loading) {
@@ -560,18 +581,34 @@ function TestHome(props) {
                 position: "absolute",
                 top: 10,
                 right: 20,
-                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.7)"),
+                backgroundColor: (theme) => (theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.3)"),
                 color: mode === "dark" ? "#e0e0e0" : "#ffffff",
                 padding: "10px",
                 borderRadius: "5px",
-                width: "250px",
+                width: "450px",
                 textAlign: "center",
                 zIndex: 1000,
             }}
         >
-            <Typography variant="body2" fontStyle={"italic"}>
+            <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
                 {" "}
-                This is an output of the project 'Atlas of Climate Adaptation in South Asian Agriculture' (ACASA)
+                This is an output of the project
+                <Typography
+                    component="a"
+                    href="https://acasa-bisa.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="body1"
+                    sx={(theme) => ({
+                        color: mode === "dark" ? "#e0e0e0" : "#ffffff",
+                        fontFamily: "Poppins",
+                        textDecoration: "none",
+                        display: "block",
+                        "&:hover": {
+                            textDecoration: "underline",
+                        },
+                    })}
+                >'Atlas of Climate Adaptation in South Asian Agriculture' (ACASA)</Typography>
             </Typography>
         </Box>
     );
@@ -749,6 +786,7 @@ function TestHome(props) {
                                 position: "absolute",
                                 bottom: 20,
                                 right: 20,
+                                transform: "translateY(-50%)",
                                 display: "flex",
                                 flexDirection: "row",
                                 gap: 2,
@@ -1058,7 +1096,7 @@ function TestHome(props) {
                             { emoji: "🌾", text: "Visualise climate hazards", },
                             { emoji: "🧑‍🌾", text: "Identify vulnerable regions for key crops and livestock", },
                             { emoji: "🛠", text: "Discover locally relevant adaptation options" },
-                            { emoji: "📊", text: "Filter by country, crop and hazard type" },
+                            { emoji: "📊", text: "Filter by state, crop and hazard type" },
                             { emoji: "🧭", text: "Support decision making through open access and granular data", },
                         ].map((item, idx) => (
                             <Grid item xs={12} sm={6} md={4} key={idx}>
@@ -1100,7 +1138,7 @@ function TestHome(props) {
                             textAlign: "center!important",
                         }}
                     >
-                        ACASA Approach
+                        ACASA-India Approach
                     </Typography>
                     <Container maxWidth="lg">
                         <img
@@ -1596,10 +1634,10 @@ function TestHome(props) {
                                 mb: 5
                             }}
                         >
-                            ACASA is a collaborative initiative powered by global and regional
+                            ACASA-India is a collaborative initiative powered by global and regional
                             leaders in agricultural innovation and climate science. Our partners
                             provide critical expertise, data, tools, and regional insights to drive
-                            climate-resilient agriculture across South Asia.
+                            climate-resilient agriculture across India.
                         </Typography>
                     </Container>
                     <Container maxWidth="xl">
@@ -1646,7 +1684,7 @@ function TestHome(props) {
                                             <SleekTooltip title={partnertooltip[num] || `Partner ${num}`} arrow>
                                                 <img
                                                     src={
-                                                        theme.palette.mode === "dark" && num === 5
+                                                        theme.palette.mode === "dark" && (num === 5 || num === 10 || num === 11)
                                                             ? `${process.env.PUBLIC_URL}/images/partner-${num}-dark.png`
                                                             : `${process.env.PUBLIC_URL}/images/partner-${num}.png`
                                                     }
@@ -1668,7 +1706,7 @@ function TestHome(props) {
                     </Container>
                 </Box>
             </Container>
-            <Container
+            {/*<Container
                 maxWidth="xl"
                 sx={{
                     bgcolor: theme.palette.mode === "dark" ? "#1a1d21" : "#F2F4F3",
@@ -1711,7 +1749,7 @@ function TestHome(props) {
                         ))}
                     </Box>
                 </Box>
-            </Container>
+            </Container>*/}
             <StickyFooter />
         </Box>
     );
