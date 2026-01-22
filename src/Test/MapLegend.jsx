@@ -475,6 +475,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
   // Render gradient legend for commodity
   const renderDefaultLegend = () => {
+    if (breadcrumbData?.analysis_scope_id === 2) return null;
     if (!breadcrumbData?.commodityLabel) return null;
 
     return (

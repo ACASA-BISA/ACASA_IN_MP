@@ -1987,13 +1987,13 @@ function MapViewer({
             <Breadcrumbs
               aria-label="breadcrumb"
               separator=">"
-              sx={{ fontSize: "14px", fontFamily:'Poppins' }}
+              sx={{ fontSize: "14px", fontFamily: 'Poppins' }}
             >
               {memoizedFilters?.region && (
                 <Typography
                   key="region"
                   color="text.primary"
-                  sx={{ fontSize: "14px !important", fontWeight: "bold !important", fontFamily:'Poppins' }}
+                  sx={{ fontSize: "14px !important", fontWeight: "bold !important", fontFamily: 'Poppins' }}
                 >
                   {memoizedFilters.region.join(", ")}
                 </Typography>
@@ -2002,7 +2002,7 @@ function MapViewer({
                 <Typography
                   key="level"
                   color="text.primary"
-                  sx={{ fontSize: "14px !important", fontFamily:'Poppins' }}
+                  sx={{ fontSize: "14px !important", fontFamily: 'Poppins' }}
                 >
                   {breadcrumbData.level}
                 </Typography>
@@ -2010,10 +2010,13 @@ function MapViewer({
               <Typography
                 key="layer"
                 color="text.primary"
-                sx={{ fontSize: "14px !important", fontFamily:'Poppins' }}
+                sx={{ fontSize: "14px !important", fontFamily: "Poppins" }}
               >
-                {breadcrumbData.commodity}
+                {breadcrumbData.mask === "regional"
+                  ? "Regional Analysis"
+                  : breadcrumbData.commodity}
               </Typography>
+
               {/* {breadcrumbData.scenario && (
                 <Typography
                   key="scenario"
@@ -2045,7 +2048,7 @@ function MapViewer({
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%-10px",
-              fontFamily:'Poppins'
+              fontFamily: 'Poppins'
             }}
           >
             {adaptationTabs.map(tab =>
@@ -2077,7 +2080,7 @@ function MapViewer({
                           ? "rgba(60, 75, 60, 1)"
                           : "rgba(235, 247, 233, 1)",
                       fontSize: 13,
-                      fontFamily:'Poppins',
+                      fontFamily: 'Poppins',
                       paddingY: "3px",
                       "& .MuiSelect-select": {
                         paddingY: "3px",
@@ -2091,7 +2094,7 @@ function MapViewer({
                       <MenuItem
                         key={subTab.tab_id}
                         value={subTab.tab_id}
-                        sx={{ fontSize: 13, paddingY: "2px",  fontFamily:'Poppins', }}
+                        sx={{ fontSize: 13, paddingY: "2px", fontFamily: 'Poppins', }}
                       >
                         {subTab.tab_name}
                       </MenuItem>
@@ -2108,7 +2111,7 @@ function MapViewer({
                     flex: 1,
                     textTransform: "none",
                     fontSize: "13px",
-                     fontFamily:'Poppins',
+                    fontFamily: 'Poppins',
                     padding: "2px 12px",
                     borderRadius: "4px",
                     backgroundColor: +selectedAdaptationTabId === +tab.tab_id
@@ -2141,7 +2144,7 @@ function MapViewer({
               ? "calc(100% - 52px)"
               : "calc(100% - 36px)",
           width: "100%",
-           fontFamily:'Poppins',
+          fontFamily: 'Poppins',
         }}
       >
         <Grid
@@ -2150,7 +2153,7 @@ function MapViewer({
           sx={{
             height: "100%",
             width: "100%",
-             fontFamily:'Poppins',
+            fontFamily: 'Poppins',
             padding: "0 10px 0 0",
           }}
         >
@@ -2163,7 +2166,7 @@ function MapViewer({
                 height: gridLayout.height,
                 position: "relative",
                 padding: "10px 0 0 16px",
-                 fontFamily:'Poppins',
+                fontFamily: 'Poppins',
                 display: viewMode === "all" || (viewMode === "single" && index === 0) ? "flex" : "none",
                 flexDirection: "column",
                 flexGrow: viewMode === "single" ? 1 : 0,
@@ -2178,11 +2181,11 @@ function MapViewer({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                   fontFamily:'Poppins',
+                  fontFamily: 'Poppins',
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Typography sx={{ fontFamily:'Poppins',}}>
+                  <Typography sx={{ fontFamily: 'Poppins', }}>
                     {tiffData[index]?.metadata.layer_name || defaultTiffData[index].metadata.layer_name}
                   </Typography>
                   {memoizedFilters.layer_type && memoizedFilters.layer_type !== "commodity" && index === 0 && toggleIntensityMetric && (
@@ -2232,7 +2235,7 @@ function MapViewer({
                       position: "absolute",
                       right: 8,
                       display: "flex",
-                       fontFamily:'Poppins',
+                      fontFamily: 'Poppins',
                       alignItems: "center",
                     }}
                   >
@@ -2240,7 +2243,7 @@ function MapViewer({
                       <IconButton
                         onClick={handleViewSingle}
                         title="Show only Baseline (2000s) map"
-                        sx={{  fontFamily:'Poppins', color: theme => theme.palette.text.secondary }}
+                        sx={{ fontFamily: 'Poppins', color: theme => theme.palette.text.secondary }}
                       >
                         <VisibilityIcon />
                       </IconButton>
@@ -2248,7 +2251,7 @@ function MapViewer({
                       <IconButton
                         onClick={handleViewAll}
                         title="Show all maps"
-                        sx={{ fontFamily:'Poppins', color: theme => theme.palette.text.secondary }}
+                        sx={{ fontFamily: 'Poppins', color: theme => theme.palette.text.secondary }}
                       >
                         <ViewModuleIcon />
                       </IconButton>
@@ -2271,7 +2274,7 @@ function MapViewer({
                   overflow: "hidden",
                   visibility: "visible",
                   opacity: 1,
-                   fontFamily:'Poppins',
+                  fontFamily: 'Poppins',
                 }}
               >
                 <Box
@@ -2286,7 +2289,7 @@ function MapViewer({
                     display: "block",
                     visibility: "visible",
                     opacity: 1,
-                     fontFamily:'Poppins',
+                    fontFamily: 'Poppins',
                   }}
                 />
                 {(internalMapLoading[index] || !tiffData || tiffData.length === 0) && (
@@ -2302,7 +2305,7 @@ function MapViewer({
                       justifyContent: "center",
                       backgroundColor: "rgba(255, 255, 255, 0.7)",
                       zIndex: 1200,
-                       fontFamily:'Poppins',
+                      fontFamily: 'Poppins',
                     }}
                   >
                     <CircularProgress />
@@ -2326,7 +2329,7 @@ function MapViewer({
                       fontWeight: "bold",
                       textAlign: "center",
                       padding: "20px",
-                       fontFamily:'Poppins',
+                      fontFamily: 'Poppins',
                     }}
                   >
                     <Typography>No GeoTIFF available for this selection</Typography>
@@ -2366,7 +2369,7 @@ function MapViewer({
             padding: "16px 16px 0 16px",
             height: "500px",
             width: "500px",
-             fontFamily:'Poppins',
+            fontFamily: 'Poppins',
             display: showAnalytics && !internalMapLoading.some(loading => loading) && breadcrumbData ? "block" : "none",
           }}
         >

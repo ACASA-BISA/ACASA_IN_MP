@@ -8,7 +8,7 @@ const glossaryData = {
     {
       term: "ACASA",
       definition: "Atlas of Climate Adaptation in South Asian Agriculture",
-      image: "acasa.PNG",
+      //image: "acasa.PNG",
     },
     {
       term: "Alternate wetting and drying",
@@ -140,7 +140,7 @@ const glossaryData = {
   ],
   E: [
     {
-      term: "Early sowing/changing planting dates",
+      term: "Early sowing",
       definition: "A tactical farming practice to synchronize crop planting with the optimal climatic conditions essential for key growth stages of crop",
     },
     {
@@ -184,6 +184,11 @@ const glossaryData = {
     {
       term: "Feed/fodder",
       definition: "Crop residue for animal usage in tons per grid. We used Global Dataset (for the year 2021) for the Production and Usage of cereal residues derived from Smerald et al., 2023.",
+    },
+    {
+      term: "Fertilizer intensification",
+      definition:
+        "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
     },
   ],
   G: [
@@ -236,7 +241,7 @@ const glossaryData = {
   ],
   I: [
     {
-      term: "ICT linked input management",
+      term: "ICT  linked management",
       definition:
         "ICT linked input management technology is a type of modern agricultural management that comprehensively integrates information technology comprised of current data and information requires from crop growth conditions, soil physical and chemical properties, weather factors; weather based forecast products  for agricultural production by quantitative  and timing of application of nutrients, water and other operation management systems in accordance with geographical locations",
     },
@@ -279,11 +284,6 @@ const glossaryData = {
     {
       term: "Millets",
       definition: "Millet is planted in multiple seasons in different countries. Here this analysis is for monsoon season (also known as 'Kharif' in India and Nepal).",
-    },
-    {
-      term: "Micro-irrigation",
-      definition:
-        "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters",
     },
     {
       term: "Modification of shed, ventilation and cooling",
@@ -356,7 +356,7 @@ const glossaryData = {
         "Precision Land Levelling (PLL) is a farming technique that involves the mechanical process of grading and smoothing land to achieve a uniform and precise. It may employ advanced laser-guided equipment to precisely contour the land surface, creating a uniform smooth surface (± 2 cm from its average elevation) and eliminating undulations that ensures every inch of your field gets the water it needs",
     },
     {
-      term: "Precision water management",
+      term: "Precision water management  (Drip irrigation)",
       definition:
         "Precision water management technology is a new type of irrigation management that comprehensively integrates information technology (sensor based) included of data and information requires from crop growth conditions, soil physical and chemical properties, weather factors and agricultural production by positioning, timing, and quantitative application of water and operation management systems in accordance with spatial variation of the field",
     },
@@ -452,6 +452,11 @@ const glossaryData = {
       definition: "SRI involves transplanting young rice seedlings at wider spacing, intermittent irrigation, and organic soil enrichment to promote sustainable and efficient farming practices",
     },
     {
+      term: "Sprinkler irrigation",
+      definition:
+        "A low-pressure, low-flow-rate type of irrigation that can reduce the likelihood of overwatering a landscape. Drip irrigation or trickle irrigation is an irrigation method that allows water to drip slowly to the roots of plants, either onto the soil surface or directly onto the root zone, through a network of valves, pipes, tubing, and emitters",
+    },
+    {
       term: "Supplemental irrigation",
       definition:
         "Addition of limited amount of water to plants under insufficient water supply by rainfall to overcome the adverse effects of drought, when rainfall fails to provide sufficient moisture for normal plant growth",
@@ -459,11 +464,6 @@ const glossaryData = {
     {
       term: "Scalability",
       definition: "Scalability is indicated by using a composite indicator of credit availability, input access, social network, education, and information access",
-    },
-    {
-      term: "Smart fertilizer management",
-      definition:
-        "Fertilizer to be adjusted to meet the nutrient demands of crop growth and avoid nutrient loss when crop biomass decreases due to water and temperature stress over time under climate change",
     },
     {
       term: "Sorghum",
@@ -546,6 +546,18 @@ const glossaryData = {
   ],
 };
 
+let csvRows = ["letter,term,definition"];
+
+for (const letter in glossaryData) {
+  glossaryData[letter].forEach(item => {
+    csvRows.push(
+      `${letter},"${item.term.replace(/"/g, '""')}","${item.definition.replace(/"/g, '""')}"`
+    );
+  });
+}
+
+const csv = csvRows.join("\n");
+
 export default function Glossary() {
   const [selectedLetter, setSelectedLetter] = React.useState(""); // Default to show all terms
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -599,7 +611,7 @@ export default function Glossary() {
             zIndex: 1000,
           }}
         >
-          <Typography variant="h5" sx={{ marginBottom: 2, fontFamily: "Poppins", fontSize:'18px' }}>
+          <Typography variant="h5" sx={{ marginBottom: 2, fontFamily: "Poppins", fontSize: '18px' }}>
             Some definitions are still being updated. This is a work in progress and subject to refinement.
           </Typography>
           <Button
@@ -815,6 +827,7 @@ export default function Glossary() {
         }}
       >
         {console.log("Number of terms displayed:", sortedFilteredTerms.length)}
+        {console.log(csv)}
         {sortedFilteredTerms.length > 0 ? (
           sortedFilteredTerms.map((item, index) => (
             <Box
@@ -839,12 +852,12 @@ export default function Glossary() {
                 sx={(theme) => ({
                   color: theme.palette.mode === "dark" ? theme.palette.text.secondary : "#555",
                   marginTop: 1,
-                  fontFamily:'Poppins',
+                  fontFamily: 'Poppins',
                 })}
               >
                 {(item.definition || "").split(" ").map((word, i) =>
                   word.startsWith("http") ? (
-                    <Link key={i} href={word} target="_blank" rel="noopener noreferrer" sx={(theme) => ({ fontSize:'18px', fontFamily:'Poppins', color: theme.palette.text.secondary, textDecoration: "underline" })}>
+                    <Link key={i} href={word} target="_blank" rel="noopener noreferrer" sx={(theme) => ({ fontSize: '18px', fontFamily: 'Poppins', color: theme.palette.text.secondary, textDecoration: "underline" })}>
                       {word}
                     </Link>
                   ) : (

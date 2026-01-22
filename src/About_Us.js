@@ -147,7 +147,7 @@ export default function AboutUs() {
                   fontSize: "18px",
                 })}
               >
-                <Link href={`${process.env.PUBLIC_URL}/V2 Atlas of Climate Adaptation Indian Agriculture  (Brochure (A4 Half Fold) - 420 mm x 297 mm) (1) 1.pdf`} underline="none" color="#4b9e44" target="_blank">
+                <Link href={`${process.env.PUBLIC_URL}/Atlas of Climate Adaptation Indian Agriculture Brochure.pdf`} underline="none" color="#4b9e44" target="_blank">
                   ACASA, India Brochure
                 </Link>
               </Typography>
