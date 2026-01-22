@@ -87,7 +87,7 @@ const resources = [
 var items = [
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_1.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111926.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111926.png`,
         id: 1,
     },
     {
@@ -102,12 +102,12 @@ var items = [
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_2.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111553.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111553.png`,
         id: 4,
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_3.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 112421.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 112421.png`,
         id: 5,
     },
     {
@@ -137,7 +137,7 @@ var items = [
     },
     {
         video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_4.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 113020.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 113020.png`,
         id: 11,
     },
     {
@@ -186,8 +186,8 @@ var items = [
         id: 20,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.JPG`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.JPG`,
         id: 21,
     },
 ];
