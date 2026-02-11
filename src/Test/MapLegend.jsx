@@ -48,6 +48,8 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     return !diffcrop.includes(breadcrumbData?.commodityLabel?.toLowerCase());
   };
 
+  const isContinuousIntensity = breadcrumbData?.intensity_metric_id === 1;
+
   /*const calcpop = (popu) => {
     const value = Number(popu) || 0;
     if (value === 0) return "0";
@@ -524,6 +526,60 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     );
   };
 
+  const renderContinuousLegend = () => {
+    const isDelta =
+      breadcrumbData?.change_metric_id === 2 &&
+      breadcrumbData?.climate_scenario_id !== 1 &&
+      Boolean(tiff?.metadata?.year);
+
+    const intensityRiskName =
+      localLegendData?.header_text ||
+      breadcrumbData?.risk_label ||
+      breadcrumbData?.hazard_label ||
+      "";
+
+    return (
+      <Box sx={{ maxWidth: maxLegendWidth, minWidth: minLegendWidth }}>
+        {showHeader && (
+          <Typography
+            sx={{
+              fontSize: baseFontSize,
+              textAlign: "center",
+              fontWeight: 600,
+              color: theme.palette.text.primary,
+            }}
+          >
+            {intensityRiskName}
+          </Typography>
+        )}
+
+        <Box sx={{ mt: 1 }}>
+          <Box
+            sx={{
+              height: 14,
+              borderRadius: 6,
+              background: isDelta
+                ? "linear-gradient(to right, #053061, #2166ac, #4393c3, #92c5de, #f7f7f7, #f4a582, #d6604d, #b2182b, #67001f)"
+                : "linear-gradient(to right, #1a9850, #a6d96a, #d9ef8b, #fee08b, #fdae61, #f46d43, #d73027)"
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: tinyFontSize,
+              color: theme.palette.text.secondary,
+              mt: 0.5,
+            }}
+          >
+            <span>{isDelta ? "Decrease" : "Low"}</span>
+            <span>{isDelta ? "Increase" : "High"}</span>
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
+
   // Render fallback UI for errors
   const renderErrorLegend = () => {
     return (
@@ -537,10 +593,13 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
 
   // Determine which legend to render based on layerType
   const legendContent =
-    error ? renderErrorLegend() :
-      ["risk", "impact", "adaptation", "adaptation_croptab"].includes(layerType?.toLowerCase())
-        ? renderRiskLegend()
-        : renderDefaultLegend();
+    error
+      ? renderErrorLegend()
+      : isContinuousIntensity
+        ? renderContinuousLegend()
+        : ["risk", "impact", "adaptation", "adaptation_croptab"].includes(layerType?.toLowerCase())
+          ? renderRiskLegend()
+          : renderDefaultLegend();
 
   if (!legendContent) return null;
 

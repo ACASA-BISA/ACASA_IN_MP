@@ -933,6 +933,7 @@ function MapViewer({
           body: JSON.stringify({
             admin_level: memoizedFilters.admin_level,
             admin_level_id: memoizedFilters.admin_level_id,
+            change_metric_id: baselineFile.change_metric_id,
             source_file: baselineFile.source_file,
             color_ramp: baselineFile.ramp,
           }),
@@ -1025,6 +1026,7 @@ function MapViewer({
             body: JSON.stringify({
               admin_level: memoizedFilters.admin_level,
               admin_level_id: memoizedFilters.admin_level_id,
+              change_metric_id: file.change_metric_id,
               source_file: file.source_file,
               color_ramp: file.ramp,
             }),
@@ -1729,6 +1731,7 @@ function MapViewer({
         body: JSON.stringify({
           admin_level: memoizedFilters.admin_level,
           admin_level_id: memoizedFilters.admin_level_id,
+          change_metric_id: file.change_metric_id,
           source_file: file.source_file,
           color_ramp: file.ramp,
         }),
