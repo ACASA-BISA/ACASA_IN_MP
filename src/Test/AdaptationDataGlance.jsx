@@ -174,6 +174,7 @@ L.control.mapControls = function (opts) {
 const DataGlance = () => {
     const theme = useTheme();
     const [countries, setCountries] = useState([]);
+    const [states, setStates] = useState([]);
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
     const [visualizationScales, setVisualizationScales] = useState([]);
@@ -181,6 +182,7 @@ const DataGlance = () => {
     const [adaptations, setAdaptations] = useState([]);
     const [geojsonData, setGeojsonData] = useState(null);
     const [selectedCountryId, setSelectedCountryId] = useState(4); // India
+    const [selectedStateId, setSelectedStateId] = useState(56);
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
     const [selectedScenarioId, setSelectedScenarioId] = useState("");
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
@@ -191,6 +193,7 @@ const DataGlance = () => {
     const [selectedAdaptations, setSelectedAdaptations] = useState(new Array(8).fill(""));
     const [isOptionLoading, setIsOptionLoading] = useState(false);
     const [showCountrySelect, setShowCountrySelect] = useState(true);
+    const [showStateSelect, setShowStateSelect] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [hazardData, setHazardData] = useState(null);
     const [tiffData, setTiffData] = useState([]);
@@ -219,7 +222,7 @@ const DataGlance = () => {
             commodity: commodities.find((c) => c.commodity_id === selectedCommodityId)?.commodity || null,
             commodity_id: selectedCommodityId || null,
             country_id: selectedCountryId || null,
-            state_id: null,
+            state_id: selectedStateId || null,
             analysis_scope_id: 1,
             climate_scenario_id: selectedScenarioId || null,
             visualization_scale_id: selectedVisualizationScaleId || null,
@@ -230,7 +233,7 @@ const DataGlance = () => {
             bbox: geojsonData?.bbox || null,
             region: geojsonData?.region || null,
         }),
-        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, geojsonData]
+        [commodities, selectedCommodityId, selectedCountryId, selectedStateId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, geojsonData]
     );
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
     const memoizedGeojsonData = useMemo(() => geojsonData, [geojsonData]);
@@ -244,10 +247,10 @@ const DataGlance = () => {
         (file, gridSequence, adaptationId) => {
             const isBaseline = parseInt(selectedScenarioId) === 1;
             const year = isBaseline ? "baseline" : selectedYear ?? "no-year";
-            return `${file.source_file}-${selectedCountryId || "total"}-${adaptationId ?? "no-adaptation"}-${selectedScenarioId}-${selectedVisualizationScaleId}-${year}`;
+            return `${file.source_file}-${selectedStateId || "total"}-${adaptationId ?? "no-adaptation"}-${selectedScenarioId}-${selectedVisualizationScaleId}-${year}`;
         },
         [
-            selectedCountryId,
+            selectedStateId,
             selectedScenarioId,
             selectedVisualizationScaleId,
             selectedYear,
@@ -307,8 +310,8 @@ const DataGlance = () => {
             if (geotiffPromiseCache.current.has(cacheKey)) {
                 return geotiffPromiseCache.current.get(cacheKey);
             }
-            const admin_level = selectedCountryId !== 0 ? "country" : "total";
-            const admin_level_id = selectedCountryId || null;
+            const admin_level = "state";
+            const admin_level_id = selectedStateId;
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -381,7 +384,7 @@ const DataGlance = () => {
             geotiffPromiseCache.current.set(cacheKey, promise);
             return promise;
         },
-        [apiUrl, selectedCountryId, makeTiffCacheKey]
+        [apiUrl, selectedStateId, makeTiffCacheKey]
     );
     const fetchGeoTiffShared = useCallback(
         async (file, gridSequence, adaptationId, grid) => {
@@ -401,7 +404,7 @@ const DataGlance = () => {
             async (
                 hazardData,
                 geojsonData,
-                countryId,
+                stateId,
                 commodityId,
                 adaptationCropTabId,
                 selectedAdaptations
@@ -637,6 +640,18 @@ const DataGlance = () => {
         },
         [fetchData]
     );
+
+    useEffect(() => {
+        const loadStates = async () => {
+            const data = await fetchData(`lkp/locations/states?country_id=${selectedCountryId}`);
+            setStates(data);
+        };
+
+        if (selectedCountryId) {
+            loadStates();
+        }
+    }, [selectedCountryId, fetchData]);
+
     const setSelectedAdaptationsAsync = (updater) => {
         return new Promise((resolve) => {
             setSelectedAdaptations((prev) => {
@@ -659,8 +674,8 @@ const DataGlance = () => {
                 // Wait for React state update to complete
                 await setSelectedAdaptationsAsync(newSelectedAdaptations);
                 // ✅ Now state is guaranteed updated
-                const admin_level = selectedCountryId !== 0 ? "country" : "total";
-                const admin_level_id = selectedCountryId || null;
+                const admin_level = "state";
+                const admin_level_id = selectedStateId;
                 const response = await fetchWithRetry(`${apiUrl}/layers/adaptations_glance`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -680,7 +695,7 @@ const DataGlance = () => {
                     fetchTiffs(
                         data,
                         geojsonData,
-                        selectedCountryId,
+                        selectedStateId,
                         commodityId,
                         adaptationCropTabId,
                         newSelectedAdaptations // ← Use the fresh value
@@ -699,7 +714,7 @@ const DataGlance = () => {
                 isFetchingRef.current = false;
             }
         }, 500),
-        [apiUrl, selectedCountryId, fetchAdaptations, geojsonData, fetchTiffs]
+        [apiUrl, selectedStateId, fetchAdaptations, geojsonData, fetchTiffs]
     );
     const handleDownloadGeoTIFF = useCallback((arrayBuffer, gridSequence) => {
         if (!arrayBuffer || arrayBuffer.byteLength === 0) {
@@ -712,9 +727,9 @@ const DataGlance = () => {
             return;
         }
         try {
-            const countryName = selectedCountryId === 0
-                ? "SouthAsia"
-                : countries.find((c) => c.country_id === selectedCountryId)?.country?.replace(/\s+/g, "") || "UnknownCountry";
+            const stateName = selectedStateId
+                ? states.find((s) => +s.state_id === +selectedStateId)?.state?.replace(/\s+/g, "") || "UnknownState"
+                : "SouthAsia";
             const commodityName = selectedCommodityId && commodities.length
                 ? commodities.find((c) => c.commodity_id === selectedCommodityId)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
                 : "NoCommoditySelected";
@@ -743,7 +758,7 @@ const DataGlance = () => {
                     ? adaptations.find((a) => a.adaptation_id === adaptationId)?.adaptation?.replace(/\s+/g, "") || "UnknownAdaptation"
                     : "NoAdaptation";
             }
-            let file_name = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}_${adaptationCropTabName}_${adaptationName}${year ? `_${year}` : ""}`;
+            let file_name = `${stateName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}_${adaptationCropTabName}_${adaptationName}${year ? `_${year}` : ""}`;
             const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
                 .map((b) => b.toString(16).padStart(2, "0"))
                 .join(" ");
@@ -764,7 +779,7 @@ const DataGlance = () => {
                 text: "Failed to download GeoTIFF file.",
             });
         }
-    }, [selectedCountryId, selectedCommodityId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedYear, selectedAdaptationCropTabId, selectedAdaptations, countries, commodities, climateScenarios, visualizationScales, adaptations, adaptationCropTabs]);
+    }, [selectedStateId, selectedCommodityId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedYear, selectedAdaptationCropTabId, selectedAdaptations, countries, commodities, climateScenarios, visualizationScales, adaptations, adaptationCropTabs]);
     const cleanupMaps = useCallback(() => {
         mapInstances.current.forEach((map, index) => {
             if (map) {
@@ -1252,6 +1267,26 @@ const DataGlance = () => {
         [memoizedHazardData, memoizedGeojsonData, updateGeoTiffLayer, fetchGeoTiffShared, selectRasterFile, selectedVisualizationScaleId, selectedCommodityId, selectedAdaptationCropTabId, apiUrl, selectedAdaptations]
     );
     useEffect(() => {
+        if (!countries.length || !selectedStateId) {
+            return;
+        }
+
+        const showSelect = true; // always show dropdown now
+
+        // Only update if needed
+        if (showCountrySelect !== showSelect) {
+            setShowCountrySelect(showSelect);
+        }
+
+        // Always use STATE now
+        cleanupMaps();
+        fetchGeojson("state", selectedStateId);
+
+        return () => {
+            isFetchingRef.current = false;
+        };
+    }, [countries, selectedStateId, fetchGeojson, cleanupMaps]);
+    {/*useEffect(() => {
         if (!countries.length) {
             return;
         }
@@ -1289,12 +1324,13 @@ const DataGlance = () => {
         return () => {
             isFetchingRef.current = false;
         };
-    }, [country, countries, fetchGeojson, cleanupMaps]);
+    }, [country, countries, fetchGeojson, cleanupMaps]);*/}
     useEffect(() => {
         geotiffPromiseCache.current.clear();
         georasterCache.current.clear();
     }, [
         selectedCountryId,
+        selectedStateId,
         selectedCommodityId,
         selectedScenarioId,
         selectedVisualizationScaleId,
@@ -1355,9 +1391,9 @@ const DataGlance = () => {
                     const tabId = fetchedAdaptationCropTabs[0]?.tab_id || "";
                     setSelectedAdaptationCropTabId(tabId);
                 }
-                if (!country) {
-                    fetchGeojson("country", 4);
-                }
+                const defaultStateId = 56;
+                setSelectedStateId(defaultStateId);
+                fetchGeojson("state", defaultStateId);
             } catch (err) {
                 console.error("Initialization error:", err);
                 Swal.fire({
@@ -1370,7 +1406,7 @@ const DataGlance = () => {
             }
         };
         initializeData();
-    }, [fetchData, fetchGeojson, fetchAdaptations, country]);
+    }, [fetchData, fetchGeojson, fetchAdaptations]);
     useEffect(() => {
         if (!hasInitializedRef.current || !selectedCommodityId || !selectedAdaptationCropTabId) {
             return;
@@ -1381,7 +1417,7 @@ const DataGlance = () => {
         if (!memoizedHazardData || !memoizedHazardData.raster_grids || !memoizedGeojsonData) {
             return;
         }
-        const fetchKey = `${selectedCountryId}-${selectedCommodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${selectedAdaptationCropTabId}-${selectedYear}`;
+        const fetchKey = `${selectedStateId}-${selectedCommodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${selectedAdaptationCropTabId}-${selectedYear}`;
         if (lastFetchKeyRef.current === fetchKey) {
             return;
         }
@@ -1393,7 +1429,7 @@ const DataGlance = () => {
         fetchTiffs(
             memoizedHazardData,
             memoizedGeojsonData,
-            selectedCountryId,
+            selectedStateId,
             selectedCommodityId,
             selectedAdaptationCropTabId,
             selectedAdaptations
@@ -1405,7 +1441,7 @@ const DataGlance = () => {
     }, [
         memoizedHazardData,
         memoizedGeojsonData,
-        selectedCountryId,
+        selectedStateId,
         selectedCommodityId,
         selectedAdaptationCropTabId,
         selectedScenarioId,
@@ -1582,20 +1618,20 @@ const DataGlance = () => {
             renderMaps();
         }
     }, [allDataReady, tiffData, renderMaps]);
-    const handleCountryChange = useCallback(
+    const handleStateChange = useCallback(
         (event) => {
-            const countryId = event.target.value;
-            if (countryId === selectedCountryId) {
+            const stateId = event.target.value;
+            if (stateId === selectedStateId) {
                 return;
             }
-            setSelectedCountryId(countryId);
-            setShowCountrySelect(true);
-            const admin_level = countryId !== 0 ? "country" : "total";
-            const admin_level_id = countryId || null;
+            setSelectedStateId(stateId);
+            setShowStateSelect(true);
+            const admin_level = "state";
+            const admin_level_id = selectedStateId;
             cleanupMaps();
             fetchGeojson(admin_level, admin_level_id);
         },
-        [fetchGeojson, cleanupMaps, selectedCountryId]
+        [fetchGeojson, cleanupMaps, selectedStateId]
     );
     const handleCommodityChange = useCallback(
         (event) => {
@@ -1728,12 +1764,12 @@ const DataGlance = () => {
                                     Location:
                                 </Typography>
                                 <FormControl fullWidth>
-                                    {showCountrySelect ? (
+                                    {showStateSelect ? (
                                         <Select
                                             disableUnderline
                                             variant="standard"
-                                            value={selectedCountryId}
-                                            onChange={handleCountryChange}
+                                            value={selectedStateId}
+                                            onChange={handleStateChange}
                                             displayEmpty
                                             inputProps={{ "aria-label": "Country" }}
                                             IconComponent={ArrowDropDownIcon}
@@ -1759,24 +1795,26 @@ const DataGlance = () => {
                                             {/*<MenuItem value={0} sx={{ fontSize: "12px", paddingY: "2px" }}>
                                                 South Asia
                                             </MenuItem>*/}
-                                            {countries.map((country) => (
-                                                <MenuItem
-                                                    key={country.country_id}
-                                                    value={country.country_id}
-                                                    disabled={!country.status}
-                                                    sx={{
-                                                        fontSize: "12px",
-                                                        paddingY: "2px",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
-                                                        maxWidth: "90px",
-                                                        fontFamily: "Poppins",
-                                                    }}
-                                                >
-                                                    {country.country}
-                                                </MenuItem>
-                                            ))}
+                                            {states
+                                                .filter((state) => state.state_id === 56)
+                                                .map((state) => (
+                                                    <MenuItem
+                                                        key={state.state_id}
+                                                        value={state.state_id}
+                                                        disabled={!state.status}
+                                                        sx={{
+                                                            fontSize: "12px",
+                                                            paddingY: "2px",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            whiteSpace: "nowrap",
+                                                            maxWidth: "90px",
+                                                            fontFamily: "Poppins",
+                                                        }}
+                                                    >
+                                                        {state.state}
+                                                    </MenuItem>
+                                                ))}
                                         </Select>
                                     ) : (
                                         <Typography

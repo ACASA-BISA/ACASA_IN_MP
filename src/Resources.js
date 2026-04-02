@@ -65,10 +65,10 @@ export default function ResTabsData() {
     handleMenuClose();
   };
 
-  const mobileTabs = ["ACASA Posts", "Newsletter-Strides", "Glossary", "Methodology"];
+  const mobileTabs = ["ACASA Posts", "Newsletter-Strides", "Glossary", "Methodology", "Publications"];
 
   React.useEffect(() => {
-    if (tabFromURL === 4 ||tabFromURL === 5 || tabFromURL === 6) {
+    if (tabFromURL === 5 || tabFromURL === 6) {
       navigate(`?tab=0`); // Redirect to tab 0 if the user tries to access these tabs
     } else {
       setTabIndex(tabFromURL || 0);
@@ -81,7 +81,7 @@ export default function ResTabsData() {
       return;
     }*/
 
-    if (index === 4 ||index === 5 || index === 6) {
+    if (index === 5 || index === 6) {
       return; // Prevent navigation to certain tabs
     }
     setTabIndex(index);

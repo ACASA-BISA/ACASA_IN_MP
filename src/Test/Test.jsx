@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Grid, Toolbar, IconButton, Drawer, Switch, Typography, FormGroup, List, Box, Tooltip, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControlLabel, FormControl, FormLabel, MenuItem, Select, ListSubheader } from "@mui/material";
 import { ExpandLess, ExpandMore, InfoOutlined as InfoIcon, ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
@@ -18,7 +18,7 @@ function Test() {
     const [selectedCountryId, setSelectedCountryId] = useState(4); // India
     const [showCountrySelect, setShowCountrySelect] = useState(true);
     const [states, setStates] = useState([]);
-    const [selectedStateId, setSelectedStateId] = useState(0);
+    const [selectedStateId, setSelectedStateId] = useState(56); // Madhya Pradesh
     const [districts, setDistricts] = useState([]);
     const [selectedDistrictId, setSelectedDistrictId] = useState(0);
     const [disabledStateFilter, setDisableStateFilter] = useState(true);
@@ -43,6 +43,7 @@ function Test() {
     const [selectedAdaptationId, setSelectedAdaptationId] = useState("");
     const [appliedFilters, setAppliedFilters] = useState(null);
     const [geojsonData, setGeojsonData] = useState({ country: null, district: null });
+    const [blockGeojson, setBlockGeojson] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState({
         region: true,
         dataType: false,
@@ -55,6 +56,7 @@ function Test() {
     });
     const [isLoading, setIsLoading] = useState(false);
     const [mapLoading, setMapLoading] = useState(false);
+    const hasLoadedBlocksRef = useRef(false);
     const apiUrl = process.env.REACT_APP_API_URL;
     const toggleDrawer = () => {
         setOpen((prevOpen) => {
@@ -214,13 +216,44 @@ function Test() {
             const india = countries.find(c => c.country_id === 4);
             if (india) {
                 setSelectedCountryId(4);
-                getStates(4);
-                setDisableStateFilter(false);
                 setShowCountrySelect(false);
-                fetchGeojson("country", 4);
+
+                // Load states
+                getStates(4);
             }
         }
     }, [countries]);
+    useEffect(() => {
+        if (states.length > 0) {
+            const selectedState = states.find(s => s.state_id === 56);
+
+            if (selectedState) {
+                setSelectedStateId(56);
+
+                // Disable state dropdown
+                setDisableStateFilter(true);
+
+                // Fetch districts immediately
+                fetchDistricts(56).then(setDistricts);
+
+                // Load state GeoJSON (NOT country anymore)
+                fetchGeojson("state", 56);
+            }
+        }
+    }, [states]);
+    useEffect(() => {
+        if (selectedStateId === 56 && !hasLoadedBlocksRef.current) {
+            fetch("/BlockBoundary/mp_blocks.json")
+                .then(res => res.json())
+                .then(data => {
+                    setBlockGeojson(data);
+                    hasLoadedBlocksRef.current = true;
+                })
+                .catch(err => console.error("Block GeoJSON load error:", err));
+        } else if (selectedStateId !== 56) {
+            setBlockGeojson(null);
+        }
+    }, [selectedStateId]);
     useEffect(() => {
         if (commodityTypes.length > 0 && !selectedCommodityTypeId) {
             setSelectedCommodityTypeId(commodityTypes[0].commodity_type_id);
@@ -468,22 +501,7 @@ function Test() {
         }
     };
     const handleCountryChange = () => { };
-    const handleStateChange = async (e) => {
-        const stateId = e.target.value;
-        setSelectedStateId(stateId);
-        if (stateId !== 0) {
-            // fetch the district list for UI
-            const res = await fetchDistricts(stateId);
-            setDistricts(res);
-            // use the local stateId variable to avoid stale state issues
-            fetchGeojson("state", stateId);
-        } else {
-            setDistricts([]);
-            setSelectedDistrictId(0);
-            // If user cleared state, restore country-level geojson
-            fetchGeojson("country", selectedCountryId);
-        }
-    };
+    const handleStateChange = () => { };
     const handleDistrictChange = (e) => {
         const districtId = e.target.value;
         setSelectedDistrictId(districtId);
@@ -673,13 +691,13 @@ function Test() {
                                                 fontFamily: 'Poppins',
                                             }}
                                         >
-                                            Country: India
+                                            State: Madhya Pradesh
                                         </Typography>
                                         <List component="div" disablePadding>
                                             <div className="card w-100 bg-transparent border-0 text-start">
                                                 <div className="card-body">
                                                     <FormControl style={{ textAlign: "left", fontFamily: 'Poppins', fontWeight: '500', }}>
-                                                        <Select
+                                                        {/*<Select
                                                             disableUnderline
                                                             variant="standard"
                                                             value={selectedStateId}
@@ -748,7 +766,7 @@ function Test() {
                                                                     </Box>
                                                                 </MenuItem>
                                                             ))}
-                                                        </Select>
+                                                        </Select>*/}
                                                         <Select
                                                             disableUnderline
                                                             variant="standard"
@@ -1402,6 +1420,7 @@ function Test() {
                                 mapLoading={mapLoading}
                                 setMapLoading={setMapLoading}
                                 climateScenarios={climateScenarios}
+                                blockGeojson={selectedDistrictId === 0 ? blockGeojson : null}
                             />
                         </Grid>
                     </Grid>

@@ -74,6 +74,7 @@ function MapViewer({
   mapLoading,
   setMapLoading,
   climateScenarios,
+  blockGeojson,
 }) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const theme = useTheme();
@@ -102,6 +103,7 @@ function MapViewer({
   const [viewMode, setViewMode] = useState("all");
   const [toggleChangeMetric, setToggleChangeMetric] = useState(true);
   const [toggleIntensityMetric, setToggleIntensityMetric] = useState(false);
+  const blockLayerRef = useRef(null);
   const isFetchingRef = useRef(false);
   const lastTiffDataRef = useRef([]);
   const lastViewModeRef = useRef("all");
@@ -482,6 +484,40 @@ function MapViewer({
         districtFeatureGroup.addLayer(districtLayer);
         districtFeatureGroup.addTo(map);
         layerRefs.current[index].push(districtFeatureGroup);
+      }
+      // --- Block GeoJSON boundaries (Madhya Pradesh only) ---
+      if (blockGeojson && memoizedFilters.state_id === 56) {
+        const blockFeatureGroup = L.featureGroup();
+
+        const blockLayer = L.geoJSON(blockGeojson, {
+          style: {
+            color: "#888888",   
+            weight: 1,
+            opacity: 0.8,
+            fill: false,
+          },
+          onEachFeature: (feature, layer) => {
+            // Optional: tooltip
+            const name =
+              feature.properties?.block ||
+              feature.properties?.name ||
+              feature.properties?.BLOCK ||
+              "";
+
+            if (name) {
+              layer.bindTooltip(name, {
+                permanent: false,
+                direction: "auto",
+                className: "map-tooltip",
+              });
+            }
+          },
+        });
+
+        blockFeatureGroup.addLayer(blockLayer);
+        blockFeatureGroup.addTo(map);
+
+        layerRefs.current[index].push(blockFeatureGroup);
       }
       // --- MASK outside geojson ---
       const worldBounds = [

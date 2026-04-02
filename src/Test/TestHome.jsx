@@ -86,110 +86,101 @@ const resources = [
 ];
 var items = [
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_1.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111926.png`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/029_AM_BISA_D2_IMG_6754.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/029_AM_BISA_D2_IMG_6754.jpg`,
         id: 1,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/India 2.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/India 2.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/037_AM_BISA_D1_IMG_4960.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/037_AM_BISA_D1_IMG_4960.jpg`,
         id: 2,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/7165529455_e0ed3b3734_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/7165529455_e0ed3b3734_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/065_AM_BISA_D3L1110403.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/065_AM_BISA_D3L1110403.jpg`,
         id: 3,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_2.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 111553.png`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/066_AM_BISA_D3L1110417(1).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/066_AM_BISA_D3L1110417(1).jpg`,
         id: 4,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_3.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 112421.png`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/067_AM_BISA_D3L1110456.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/067_AM_BISA_D3L1110456.jpg`,
         id: 5,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/30111128180_9a0be87761_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/30111128180_9a0be87761_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/068_AM_BISA_D3L1002661.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/068_AM_BISA_D3L1002661.jpg`,
         id: 6,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/42757540094_8bba8fa966_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/42757540094_8bba8fa966_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/071_AM_BISA_D3IMG_8680.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/071_AM_BISA_D3IMG_8680.jpg`,
         id: 7,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425798842_884ba83b08_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425798842_884ba83b08_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/072_AM_BISA_D3IMG_8673.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/072_AM_BISA_D3IMG_8673.jpg`,
         id: 8,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425824002_0ac39741f3_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43425824002_0ac39741f3_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/079_AM_BISA_D3IMG_7547.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/079_AM_BISA_D3IMG_7547.jpg`,
         id: 9,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/43473969021_935275495b_o.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/43473969021_935275495b_o.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/085_AM_BISA_D3IMG_7888.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/085_AM_BISA_D3IMG_7888.jpg`,
         id: 10,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/video_4.mp4`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Screenshot 2026-01-14 113020.png`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/4778370968_963bdf0688_o.jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/4778370968_963bdf0688_o.jpg`,
         id: 11,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/BISA maize.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/CGIAR_CCAFS_2013 (2).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/CGIAR_CCAFS_2013 (2).jpg`,
         id: 12,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (1).jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/CGIAR_CCAFS_2013 (3).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/CGIAR_CCAFS_2013 (3).jpg`,
         id: 13,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (7).jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/image (3).jpg`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/image (3).jpg`,
         id: 14,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CIMMYT (6).jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/soybean MP (4).jfif`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/soybean MP (4).jfif`,
         id: 15,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/CSA South Asia.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Video Project 23.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Screenshot 2026-04-02 140715.png`,
         id: 16,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/page3_Production Risk.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/page3_Production Risk.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Video Project 24.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Screenshot 2026-04-02 143618.png`,
         id: 17,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/Pearl_millet.jpeg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/Pearl_millet.jpeg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Video Project 25.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Screenshot 2026-04-02 144511.png`,
         id: 18,
     },
     {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0396.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0396.jpg`,
+        video: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Video Project 26.mp4`,
+        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/MP images/Screenshot 2026-04-02 144836.png`,
         id: 19,
     },
-    {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/India.jpg`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/India.jpg`,
-        id: 20,
-    },
-    {
-        video: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.JPG`,
-        videothumb: `${process.env.PUBLIC_URL}/Home_imgs/India images/DJI_0925.JPG`,
-        id: 21,
-    },
+
 ];
 // const types = [
 // "Enhance adaptive capacity of agricultural systems through granular climate risk assessment and targeted adaptation options.",
@@ -590,7 +581,7 @@ function TestHome(props) {
                 zIndex: 1000,
             }}
         >
-            <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
+            {/*<Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
                 {" "}
                 This is an output of the project
                 <Typography
@@ -609,6 +600,29 @@ function TestHome(props) {
                         },
                     })}
                 >'Atlas of Climate Adaptation in South Asian Agriculture' (ACASA)</Typography>
+            </Typography>*/}
+            <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
+                {" "}
+                This is a geographic instance of
+                <Typography
+                    component="a"
+                    href="https://icar-acasa.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="body1"
+                    sx={(theme) => ({
+                        color: mode === "dark" ? "#e0e0e0" : "#ffffff",
+                        fontFamily: "Poppins",
+                        textDecoration: "none",
+                        display: "block",
+                        "&:hover": {
+                            textDecoration: "underline",
+                        },
+                    })}
+                >'Atlas of Climate Adaptation in Indian Agriculture' (ACASA-India)</Typography>
+                <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
+                    for Madhya Pradesh
+                </Typography>
             </Typography>
         </Box>
     );
@@ -722,7 +736,7 @@ function TestHome(props) {
                                     textShadow: theme.palette.mode === "dark" ? "2px 2px 5px rgba(0, 0, 0, 0.6)" : "2px 2px 5px rgba(0, 0, 0, 0.25), -2px -2px 5px rgba(0, 0, 0, 0.25)",
                                 })}
                             >
-                                Atlas of Climate Adaptation in Indian Agriculture
+                                Atlas of Climate Adaptation in Madhya Pradesh's Agriculture
                             </Typography>
                             <Typography
                                 variant="subtitle1"
@@ -735,6 +749,17 @@ function TestHome(props) {
                             >
                                 Interconnections between climate risks, practices, technologies, and policies
                             </Typography>
+                            {/*<Typography
+                                variant="subtitle1"
+                                sx={(theme) => ({
+                                    fontWeight: "bold",
+                                    mt: 2,
+                                    fontFamily: '"Poppins", sans-serif',
+                                    color: theme.palette.mode === "dark" ? "#fff" : "#ffffff",
+                                })}
+                            >
+                                Text for Madhya Pradesh
+                            </Typography>*/}
                             <Box
                                 sx={(theme) => ({
                                     background:
@@ -1138,12 +1163,12 @@ function TestHome(props) {
                             textAlign: "center!important",
                         }}
                     >
-                        ACASA-India Approach
+                        ACASA-India/Madhya Pradesh Approach
                     </Typography>
                     <Container maxWidth="lg">
                         <img
                             className="w-100"
-                            src={`${process.env.PUBLIC_URL}/ACASA_Approach_IN.svg`}
+                            src={`${process.env.PUBLIC_URL}/ACASA_Approach_IN-MP.svg`}
                             style={{
                                 filter: theme.palette.mode === "dark" ? "invert(93%) sepia(5%) saturate(166%) hue-rotate(180deg) brightness(100%) contrast(85%)" : "none",
                             }}
@@ -1634,7 +1659,7 @@ function TestHome(props) {
                                 mb: 5
                             }}
                         >
-                            ACASA-India is a collaborative initiative powered by global and regional
+                            ACASA-India/Madhya Pradesh is a collaborative initiative powered by global and regional
                             leaders in agricultural innovation and climate science. Our partners
                             provide critical expertise, data, tools, and regional insights to drive
                             climate-resilient agriculture across India.

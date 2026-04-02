@@ -148,7 +148,7 @@ export default function AboutUs() {
                 })}
               >
                 <Link href={`${process.env.PUBLIC_URL}/Atlas of Climate Adaptation Indian Agriculture Brochure.pdf`} underline="none" color="#4b9e44" target="_blank">
-                  ACASA, India Brochure
+                  ACASA, Madhya Pradesh Brochure
                 </Link>
               </Typography>
             </Box>
