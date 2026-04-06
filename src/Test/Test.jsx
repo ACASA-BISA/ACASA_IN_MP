@@ -417,6 +417,7 @@ function Test() {
             risks: risks || [],
             country_id: selectedCountryId,
             state_id: selectedStateId,
+            district_id: selectedDistrictId !== 0 ? selectedDistrictId : null,
             sub_layer_name
         };
         setAppliedFilters(newFilters);

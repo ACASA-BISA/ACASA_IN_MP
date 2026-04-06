@@ -165,6 +165,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           change_metric_id: breadcrumbData?.change_metric_id || 1,
           adaptation_id: tiff.metadata.adaptation_id || null,
           source_file: tiff.metadata.source_file,
+          district_id: breadcrumbData?.district_id || null,
         });
 
         if (legendCache.current.has(cacheKey)) {
@@ -178,6 +179,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
           layer_type: layerType?.toLowerCase(),
           country_id: breadcrumbData?.country_id || null,
           state_id: breadcrumbData?.state_id || null,
+          district_id: breadcrumbData?.district_id || null,
           commodity_id: breadcrumbData?.commodity_id || null,
           climate_scenario_id: (tiff.metadata.year || hazards) ? breadcrumbData?.climate_scenario_id : 1,
           year: tiff.metadata.year || null,
@@ -224,6 +226,7 @@ const MapLegend = ({ tiff, breadcrumbData, layerType, apiUrl, legendType, showHe
     breadcrumbData?.visualization_scale_id,
     breadcrumbData?.intensity_metric_id,
     breadcrumbData?.change_metric_id,
+    breadcrumbData?.district_id,
     apiUrl,
     hazards,
   ]);

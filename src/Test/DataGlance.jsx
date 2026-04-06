@@ -202,12 +202,14 @@ const DataGlance = () => {
     const theme = useTheme();
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
+    const [districts, setDistricts] = useState([]);
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
     const [visualizationScales, setVisualizationScales] = useState([]);
     const [geojsonData, setGeojsonData] = useState(null);
     const [selectedCountryId, setSelectedCountryId] = useState(4); // India
     const [selectedStateId, setSelectedStateId] = useState(56);
+    const [selectedDistrictId, setSelectedDistrictId] = useState(null);
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
     const [selectedScenarioId, setSelectedScenarioId] = useState("");
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
@@ -249,6 +251,7 @@ const DataGlance = () => {
             commodity_id: selectedCommodityId || null,
             country_id: selectedCountryId || null,
             state_id: selectedStateId || null,
+            district_id: selectedDistrictId || null,
             climate_scenario_id: selectedScenarioId || null,
             visualization_scale_id: selectedVisualizationScaleId || null,
             intensity_metric_id: selectedIntensityMetricId || null,
@@ -258,7 +261,7 @@ const DataGlance = () => {
             region: geojsonData?.region || null,
             year: selectedYear || null,
         }),
-        [commodities, selectedCommodityId, selectedCountryId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, geojsonData, selectedYear]
+        [commodities, selectedCommodityId, selectedCountryId, selectedStateId, selectedDistrictId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, geojsonData]
     );
 
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
@@ -480,44 +483,61 @@ const DataGlance = () => {
         },
         [apiUrl]
     );
+    
+    const getAdminParams = useCallback(() => {
+        const isDistrictLevel = selectedDistrictId && 
+                            selectedDistrictId !== 0 && 
+                            selectedDistrictId !== null && 
+                            selectedDistrictId !== "";
 
-    const fetchHazardData = useCallback(
-        async (commodityId) => {
-            if (!commodityId) {
-                return;
-            }
-            isFetchingRef.current = true;
-            setIsLoading(true);
-            try {
-                const admin_level = "state";
-                const admin_level_id = selectedStateId;
-                const response = await fetchWithRetry(`${apiUrl}/layers/hazards_glance`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        commodity_id: commodityId,
-                        admin_level,
-                        admin_level_id,
-                    }),
-                });
-                const { success, data } = await response.json();
-                if (!success) throw new Error("API error: /layers/hazards_glance");
-                setHazardData(data);
-            } catch (err) {
-                console.error("Error fetching hazard data:", err);
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: err.message || "Error loading hazard data",
-                });
-                setHazardData(null);
-            } finally {
-                setIsLoading(false);
-                isFetchingRef.current = false;
-            }
-        },
-        [apiUrl, selectedStateId]
-    );
+        return {
+            admin_level: isDistrictLevel ? "district" : "state",
+            admin_level_id: isDistrictLevel ? selectedDistrictId : selectedStateId
+        };
+    }, [selectedDistrictId, selectedStateId]);
+
+    const fetchDistricts = useCallback(async (stateId) => {
+        if (!stateId) return [];
+        try {
+            const data = await fetchData(`lkp/locations/districts?country_id=4&state_id=${stateId}`);
+            return data || [];
+        } catch (err) {
+            console.error("Error fetching districts:", err);
+            return [];
+        }
+    }, [fetchData]);
+
+    const fetchHazardData = useCallback(async (commodityId) => {
+        if (!commodityId) return;
+        isFetchingRef.current = true;
+        setIsLoading(true);
+
+        try {
+            const { admin_level, admin_level_id } = getAdminParams();
+
+            const response = await fetchWithRetry(`${apiUrl}/layers/hazards_glance`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    commodity_id: commodityId,
+                    admin_level,
+                    admin_level_id,
+                }),
+            });
+
+            const { success, data } = await response.json();
+            if (!success) throw new Error("API error: /layers/hazards_glance");
+
+            setHazardData(data);
+        } catch (err) {
+            console.error("Error fetching hazard data:", err);
+            Swal.fire({ icon: "error", title: "Error", text: err.message || "Failed to load hazard data" });
+            setHazardData(null);
+        } finally {
+            setIsLoading(false);
+            isFetchingRef.current = false;
+        }
+    }, [apiUrl, getAdminParams]);
 
     const selectRasterFile = useCallback(
         (rasterFiles, gridSequence) => {
@@ -554,12 +574,13 @@ const DataGlance = () => {
 
     const fetchGeoTiff = useCallback(
         async (file, gridSequence, layerId) => {
-            const cacheKey = `${file.source_file}-${selectedStateId || "total"}-${gridSequence}`;
+            const { admin_level, admin_level_id } = getAdminParams();
+            const cacheKey = `${file.source_file}-${admin_level_id}-${gridSequence}`;
+
             if (geotiffPromiseCache.current.has(cacheKey)) {
                 return geotiffPromiseCache.current.get(cacheKey);
             }
-            const admin_level = "state";
-            const admin_level_id = selectedStateId;
+
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -571,7 +592,6 @@ const DataGlance = () => {
                 }),
             })
                 .then(async (geotiffRes) => {
-                    // Check if the response is JSON (indicating an error like success: 0)
                     const contentType = geotiffRes.headers.get("content-type");
                     if (contentType && contentType.includes("application/json")) {
                         const jsonResponse = await geotiffRes.json();
@@ -581,9 +601,7 @@ const DataGlance = () => {
                                 arrayBuffer: null,
                                 metadata: {
                                     source_file: file.source_file,
-                                    color_ramp: file.ramp.map((color) =>
-                                        color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
-                                    ),
+                                    color_ramp: file.ramp.map((color) => color.toLowerCase() === "#00ff00" ? "#7FFF00" : color),
                                     layer_name: file.hazard_title || `Hazard ${gridSequence}`,
                                     grid_sequence: gridSequence,
                                     layer_id: layerId,
@@ -594,21 +612,11 @@ const DataGlance = () => {
                         }
                         throw new Error(`Unexpected JSON response: ${jsonResponse.message || "Unknown error"}`);
                     }
-
-                    if (!geotiffRes.ok) {
-                        throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status}`);
-                    }
-
+                    if (!geotiffRes.ok) throw new Error(`Failed to fetch GeoTIFF: ${geotiffRes.status}`);
                     const arrayBuffer = await geotiffRes.arrayBuffer();
-                    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-                        throw new Error(`Empty or invalid arrayBuffer for ${file.source_file}`);
-                    }
-                    const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                        .map((b) => b.toString(16).padStart(2, "0"))
-                        .join(" ");
-                    const modifiedColorRamp = file.ramp.map((color) =>
-                        color.toLowerCase() === "#00ff00" ? "#7FFF00" : color
-                    );
+                    if (!arrayBuffer || arrayBuffer.byteLength === 0) throw new Error(`Empty arrayBuffer for ${file.source_file}`);
+
+                    const modifiedColorRamp = file.ramp.map((color) => color.toLowerCase() === "#00ff00" ? "#7FFF00" : color);
                     return {
                         arrayBuffer,
                         metadata: {
@@ -624,11 +632,7 @@ const DataGlance = () => {
                 })
                 .catch((err) => {
                     console.error(`Error fetching GeoTIFF for ${file.hazard_title || "hazard"}:`, err);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: `Failed to load GeoTIFF for ${file.hazard_title || "hazard"}: ${err.message}`,
-                    });
+                    Swal.fire({ icon: "error", title: "Error", text: `Failed to load GeoTIFF for ${file.hazard_title || "hazard"}` });
                     geotiffPromiseCache.current.delete(cacheKey);
                     return null;
                 });
@@ -636,7 +640,7 @@ const DataGlance = () => {
             geotiffPromiseCache.current.set(cacheKey, promise);
             return promise;
         },
-        [apiUrl, selectedStateId]
+        [apiUrl, getAdminParams]
     );
 
     useEffect(() => {
@@ -649,6 +653,14 @@ const DataGlance = () => {
             loadStates();
         }
     }, [selectedCountryId, fetchData]);
+
+    useEffect(() => {
+        if (selectedStateId) {
+            fetchDistricts(selectedStateId).then((districtData) => {
+                setDistricts(districtData || []);
+            });
+        }
+    }, [selectedStateId, fetchDistricts]);
 
     const handleDownloadGeoTIFF = useCallback((arrayBuffer, filename) => {
 
@@ -913,6 +925,10 @@ const DataGlance = () => {
                 setSelectedStateId(defaultStateId);
                 fetchGeojson("state", defaultStateId);
 
+                fetchDistricts(defaultStateId).then((districtData) => {
+                    setDistricts(districtData || []);
+                });
+
             } catch (err) {
                 console.error("Initialization error:", err);
                 Swal.fire({
@@ -1026,6 +1042,11 @@ const DataGlance = () => {
         }
         fetchHazardData(selectedCommodityId);
     }, [selectedCommodityId, selectedCountryId, fetchHazardData]);
+
+    useEffect(() => {
+        if (!selectedCommodityId) return;
+        fetchHazardData(selectedCommodityId);
+    }, [selectedDistrictId, selectedCommodityId, fetchHazardData]);
 
     useEffect(() => {
         if (!memoizedHazardData || !memoizedGeojsonData) {
@@ -1587,19 +1608,36 @@ const DataGlance = () => {
     const handleStateChange = useCallback(
         (event) => {
             const stateId = event.target.value;
-            if (stateId === selectedStateId) {
-                return;
-            }
+            if (stateId === selectedStateId) return;
+
             setSelectedStateId(stateId);
+            setSelectedDistrictId(null);
             setShowStateSelect(true);
-            const admin_level = "state";
-            const admin_level_id = selectedStateId;
+
             cleanupMaps();
-            fetchGeojson(admin_level, admin_level_id);
+            fetchGeojson("state", stateId);
         },
-        [fetchGeojson, cleanupMaps, selectedStateId]
+        [selectedStateId, cleanupMaps, fetchGeojson]
     );
 
+    const handleDistrictChange = useCallback(
+        (event) => {
+            const districtId = event.target.value || null;
+            if (districtId === selectedDistrictId) return;
+
+            setSelectedDistrictId(districtId);
+            cleanupMaps();
+
+            // Fetch geojson for the selected district
+            if (districtId) {
+                fetchGeojson("district", districtId);
+            } else {
+                fetchGeojson("state", selectedStateId);
+            }
+        },
+        [selectedDistrictId, selectedStateId, cleanupMaps, fetchGeojson]
+    );
+    
     const handleCommodityChange = useCallback(
         (event) => {
             const commodityId = event.target.value;
@@ -1721,77 +1759,70 @@ const DataGlance = () => {
                                 fontFamily: "Poppins",
                             })}
                         >
-                            <Box sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 0.625,
-                                flex: 1,
-                                marginRight: "5px",
-                                overflow: "hidden",
-                                flexWrap: "nowrap",
-                                minWidth: 'auto',
-                                fontFamily: "Poppins",
-                            }}>
-                                <Typography sx={{ fontSize: 13, fontWeight: "500", fontFamily: "Poppins", }}>Location: </Typography>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 0.625, flex: 1, marginRight: "5px" }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "500", fontFamily: "Poppins" }}>
+                                    Location:
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: "12px",
+                                        fontFamily: "Poppins",
+                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        padding: "4px 12px",
+                                        borderRadius: "4px",
+                                        height: "24px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    Madhya Pradesh
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.625,
+                                    flex: 1,
+                                    marginRight: "5px",
+                                    overflow: "hidden",
+                                    flexWrap: "nowrap",
+                                    minWidth: "auto",
+                                    fontFamily: "Poppins",
+                                }}
+                            >
+                                <Typography sx={{ fontSize: 13, fontWeight: "500", whiteSpace: "nowrap", fontFamily: "Poppins" }}>
+                                    District:
+                                </Typography>
                                 <FormControl fullWidth>
-                                    {showStateSelect ? (
-                                        <Select
-                                            disableUnderline
-                                            variant="standard"
-                                            value={selectedStateId}
-                                            onChange={handleStateChange}
-                                            displayEmpty
-                                            inputProps={{ "aria-label": "Country" }}
-                                            IconComponent={ArrowDropDownIcon}
-                                            MenuProps={{
-                                                disableScrollLock: true,
-                                                PaperProps: { sx: { maxHeight: 300 } },
-                                                PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                            }}
-                                            sx={(theme) => ({
-                                                fontSize: "12px",
-                                                height: "24px",
-                                                fontFamily: "Poppins",
-                                                backgroundColor:
-                                                    theme.palette.mode === "dark"
-                                                        ? "rgba(60, 75, 60, 1)"
-                                                        : "rgba(235, 247, 233, 1)",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                whiteSpace: "nowrap",
-                                                fontFamily: "Poppins",
-                                            })}
-                                            disabled={isLoading || isOptionLoading}
-                                        >
-                                            {/*<MenuItem value={0} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                South Asia
-                                            </MenuItem>*/}
-                                            {states
-                                                .filter((state) => state.state_id === 56)
-                                                .map((state) => (
-                                                    <MenuItem
-                                                        key={state.state_id}
-                                                        value={state.state_id}
-                                                        disabled={!state.status}
-                                                        sx={{
-                                                            fontSize: "12px",
-                                                            paddingY: "2px",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            whiteSpace: "nowrap",
-                                                            maxWidth: "90px",
-                                                            fontFamily: "Poppins",
-                                                        }}
-                                                    >
-                                                        {state.state}
-                                                    </MenuItem>
-                                                ))}
-                                        </Select>
-                                    ) : (
-                                        <Typography variant="body1" sx={{ fontSize: "12px", fontFamily: "Poppins", }}>
-                                            {countries.find((c) => c.country_id === selectedCountryId)?.country || "South Asia"}
-                                        </Typography>
-                                    )}
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedDistrictId || ""}
+                                        onChange={handleDistrictChange}
+                                        displayEmpty
+                                        IconComponent={ArrowDropDownIcon}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            fontFamily: "Poppins",
+                                            backgroundColor: theme.palette.mode === "dark"
+                                                ? "rgba(60, 75, 60, 1)"
+                                                : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        <MenuItem value="">All Districts</MenuItem>
+                                        {districts.map((d) => (
+                                            <MenuItem key={d.district_id} value={d.district_id}>
+                                                {d.district}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                             </Box>
 
@@ -2298,6 +2329,7 @@ const DataGlance = () => {
                                                         commodity_id: selectedCommodityId || null,
                                                         country_id: selectedCountryId || null,
                                                         state_id: selectedStateId || null,
+                                                        district_id: selectedDistrictId || null,     // ← ADD THIS LINE
                                                         climate_scenario_id: selectedScenarioId || null,
                                                         visualization_scale_id: selectedVisualizationScaleId || null,
                                                         intensity_metric_id: selectedIntensityMetricId || null,

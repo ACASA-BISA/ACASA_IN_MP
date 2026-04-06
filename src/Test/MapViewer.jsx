@@ -947,6 +947,7 @@ function MapViewer({
         scenario: data.scenario || null,
         country_id: memoizedFilters.country_id,
         state_id: memoizedFilters.state_id,
+        district_id: memoizedFilters.district_id || null,
         commodity_id: memoizedFilters.commodity_id,
         analysis_scope_id: memoizedFilters.analysis_scope_id,
         climate_scenario_id: selectedScenario,

@@ -175,6 +175,7 @@ const DataGlance = () => {
     const theme = useTheme();
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
+    const [districts, setDistricts] = useState([]);
     const [commodities, setCommodities] = useState([]);
     const [climateScenarios, setClimateScenarios] = useState([]);
     const [visualizationScales, setVisualizationScales] = useState([]);
@@ -183,6 +184,7 @@ const DataGlance = () => {
     const [geojsonData, setGeojsonData] = useState(null);
     const [selectedCountryId, setSelectedCountryId] = useState(4); // India
     const [selectedStateId, setSelectedStateId] = useState(56);
+    const [selectedDistrictId, setSelectedDistrictId] = useState(null);
     const [selectedCommodityId, setSelectedCommodityId] = useState("");
     const [selectedScenarioId, setSelectedScenarioId] = useState("");
     const [selectedVisualizationScaleId, setSelectedVisualizationScaleId] = useState("");
@@ -223,6 +225,7 @@ const DataGlance = () => {
             commodity_id: selectedCommodityId || null,
             country_id: selectedCountryId || null,
             state_id: selectedStateId || null,
+            district_id: selectedDistrictId || null,   // ← THIS WAS THE BUG
             analysis_scope_id: 1,
             climate_scenario_id: selectedScenarioId || null,
             visualization_scale_id: selectedVisualizationScaleId || null,
@@ -233,7 +236,7 @@ const DataGlance = () => {
             bbox: geojsonData?.bbox || null,
             region: geojsonData?.region || null,
         }),
-        [commodities, selectedCommodityId, selectedCountryId, selectedStateId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, geojsonData]
+        [commodities, selectedCommodityId, selectedCountryId, selectedStateId, selectedDistrictId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedAdaptationCropTabId, geojsonData]
     );
     const memoizedHazardData = useMemo(() => hazardData, [hazardData]);
     const memoizedGeojsonData = useMemo(() => geojsonData, [geojsonData]);
@@ -247,29 +250,24 @@ const DataGlance = () => {
         (file, gridSequence, adaptationId) => {
             const isBaseline = parseInt(selectedScenarioId) === 1;
             const year = isBaseline ? "baseline" : selectedYear ?? "no-year";
-            return `${file.source_file}-${selectedStateId || "total"}-${adaptationId ?? "no-adaptation"}-${selectedScenarioId}-${selectedVisualizationScaleId}-${year}`;
+            const adminId = selectedDistrictId && selectedDistrictId !== 0 && selectedDistrictId !== null 
+                ? selectedDistrictId 
+                : selectedStateId || "total";
+
+            return `${file.source_file}-${adminId}-${adaptationId ?? "no-adaptation"}-${selectedScenarioId}-${selectedVisualizationScaleId}-${year}`;
         },
-        [
-            selectedStateId,
-            selectedScenarioId,
-            selectedVisualizationScaleId,
-            selectedYear,
-        ]
+        [selectedStateId, selectedDistrictId, selectedScenarioId, selectedVisualizationScaleId, selectedYear]
     );
-    const getBaselineLayerId = (hazardData) => {
-        // grid_sequence === 0 is always the reference map
-        const baselineGrid = hazardData?.raster_grids?.find(
-            (g) => g.grid_sequence === 0
-        );
-        if (!baselineGrid) return null;
-        // Crops → impact, Livestock → risk (you can extend this mapping)
-        const isLivestock = selectedCommodityId
-            ? commodities.find((c) => c.commodity_id === selectedCommodityId)
-                ?.commodity_group?.toLowerCase()
-                .includes("livestock")
-            : false;
-        return isLivestock ? baselineGrid.risk_layer_id : baselineGrid.layer_id;
-    };
+    const getAdminParams = useCallback(() => {
+        const isDistrictLevel = selectedDistrictId &&
+                            selectedDistrictId !== 0 &&
+                            selectedDistrictId !== null &&
+                            selectedDistrictId !== "";
+        return {
+            admin_level: isDistrictLevel ? "district" : "state",
+            admin_level_id: isDistrictLevel ? selectedDistrictId : selectedStateId
+        };
+    }, [selectedDistrictId, selectedStateId]);
     const selectRasterFile = useCallback(
         (grid, adaptationId) => {
             const rasterFiles = grid.raster_files || [];
@@ -310,8 +308,7 @@ const DataGlance = () => {
             if (geotiffPromiseCache.current.has(cacheKey)) {
                 return geotiffPromiseCache.current.get(cacheKey);
             }
-            const admin_level = "state";
-            const admin_level_id = selectedStateId;
+            const { admin_level, admin_level_id } = getAdminParams();
             const promise = fetchWithRetry(`${apiUrl}/layers/geotiff`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -384,7 +381,7 @@ const DataGlance = () => {
             geotiffPromiseCache.current.set(cacheKey, promise);
             return promise;
         },
-        [apiUrl, selectedStateId, makeTiffCacheKey]
+        [apiUrl, makeTiffCacheKey, getAdminParams]
     );
     const fetchGeoTiffShared = useCallback(
         async (file, gridSequence, adaptationId, grid) => {
@@ -513,6 +510,8 @@ const DataGlance = () => {
             selectedVisualizationScaleId,
             selectRasterFile,
             fetchGeoTiffShared,
+            selectedDistrictId,
+            makeTiffCacheKey
         ]
     );
     useEffect(() => {
@@ -610,6 +609,16 @@ const DataGlance = () => {
         },
         [apiUrl]
     );
+    const fetchDistricts = useCallback(async (stateId) => {
+        if (!stateId) return [];
+        try {
+            const data = await fetchData(`lkp/locations/districts?country_id=4&state_id=${stateId}`);
+            return data || [];
+        } catch (err) {
+            console.error("Error fetching districts:", err);
+            return [];
+        }
+    }, [fetchData]);
     const fetchAdaptations = useCallback(
         async (commodityId) => {
             if (!commodityId) {
@@ -652,6 +661,14 @@ const DataGlance = () => {
         }
     }, [selectedCountryId, fetchData]);
 
+    useEffect(() => {
+        if (selectedStateId) {
+            fetchDistricts(selectedStateId).then((districtData) => {
+                setDistricts(districtData || []);
+            });
+        }
+    }, [selectedStateId, fetchDistricts]);
+
     const setSelectedAdaptationsAsync = (updater) => {
         return new Promise((resolve) => {
             setSelectedAdaptations((prev) => {
@@ -661,61 +678,42 @@ const DataGlance = () => {
             });
         });
     };
-    const fetchHazardData = useCallback(
-        debounce(async (commodityId, adaptationCropTabId) => {
-            if (!commodityId || !adaptationCropTabId) {
-                return;
-            }
-            isFetchingRef.current = true;
-            setIsLoading(true);
-            try {
-                // Fetch adaptations
-                const newSelectedAdaptations = await fetchAdaptations(commodityId);
-                // Wait for React state update to complete
-                await setSelectedAdaptationsAsync(newSelectedAdaptations);
-                // ✅ Now state is guaranteed updated
-                const admin_level = "state";
-                const admin_level_id = selectedStateId;
-                const response = await fetchWithRetry(`${apiUrl}/layers/adaptations_glance`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        commodity_id: commodityId,
-                        adaptation_croptab_id: adaptationCropTabId,
-                        admin_level,
-                        admin_level_id,
-                    }),
-                });
-                const { success, data } = await response.json();
-                if (!success) throw new Error("API error: /layers/adaptations_glance");
-                lastFetchKeyRef.current = null;
-                setHazardData(data);
-                // Trigger fetchTiffs with updated selectedAdaptations
-                if (geojsonData) {
-                    fetchTiffs(
-                        data,
-                        geojsonData,
-                        selectedStateId,
-                        commodityId,
-                        adaptationCropTabId,
-                        newSelectedAdaptations // ← Use the fresh value
-                    );
-                }
-            } catch (err) {
-                console.error("Error fetching adaptations data:", err);
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: err.message || "Error loading adaptations data",
-                });
-                setHazardData(null);
-            } finally {
-                setIsLoading(false);
-                isFetchingRef.current = false;
-            }
-        }, 500),
-        [apiUrl, selectedStateId, fetchAdaptations, geojsonData, fetchTiffs]
-    );
+    const fetchHazardData = useCallback(async (commodityId, adaptationCropTabId) => {  // keep your original name
+        if (!commodityId || !adaptationCropTabId) return;
+        isFetchingRef.current = true;
+        setIsLoading(true);
+
+        try {
+            const { admin_level, admin_level_id } = getAdminParams();
+
+            // First load adaptations (this part stays same)
+            const newSelectedAdaptations = await fetchAdaptations(commodityId);
+            await setSelectedAdaptationsAsync(newSelectedAdaptations);
+
+            const response = await fetchWithRetry(`${apiUrl}/layers/adaptations_glance`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    commodity_id: commodityId,
+                    adaptation_croptab_id: adaptationCropTabId,
+                    admin_level,
+                    admin_level_id,
+                }),
+            });
+
+            const { success, data } = await response.json();
+            if (!success) throw new Error("API error: /layers/adaptations_glance");
+
+            setHazardData(data);
+        } catch (err) {
+            console.error("Error fetching adaptations data:", err);
+            Swal.fire({ icon: "error", title: "Error", text: err.message || "Failed to load adaptations data" });
+            setHazardData(null);
+        } finally {
+            setIsLoading(false);
+            isFetchingRef.current = false;
+        }
+    }, [apiUrl, getAdminParams, fetchAdaptations]);
     const handleDownloadGeoTIFF = useCallback((arrayBuffer, gridSequence) => {
         if (!arrayBuffer || arrayBuffer.byteLength === 0) {
             console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { gridSequence, byteLength: arrayBuffer?.byteLength });
@@ -1394,6 +1392,9 @@ const DataGlance = () => {
                 const defaultStateId = 56;
                 setSelectedStateId(defaultStateId);
                 fetchGeojson("state", defaultStateId);
+                fetchDistricts(defaultStateId).then((districtData) => {
+                    setDistricts(districtData || []);
+                });
             } catch (err) {
                 console.error("Initialization error:", err);
                 Swal.fire({
@@ -1408,17 +1409,19 @@ const DataGlance = () => {
         initializeData();
     }, [fetchData, fetchGeojson, fetchAdaptations]);
     useEffect(() => {
-        if (!hasInitializedRef.current || !selectedCommodityId || !selectedAdaptationCropTabId) {
-            return;
+        if (selectedCommodityId && selectedAdaptationCropTabId) {
+            fetchHazardData(selectedCommodityId, selectedAdaptationCropTabId);
         }
-        fetchHazardData(selectedCommodityId, selectedAdaptationCropTabId);
-    }, [selectedCommodityId, selectedAdaptationCropTabId, fetchHazardData]);
+    }, [selectedDistrictId, selectedCommodityId, selectedAdaptationCropTabId, fetchHazardData]);
     useEffect(() => {
         if (!memoizedHazardData || !memoizedHazardData.raster_grids || !memoizedGeojsonData) {
             return;
         }
-        const fetchKey = `${selectedStateId}-${selectedCommodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${selectedAdaptationCropTabId}-${selectedYear}`;
+        const fetchKey = `${selectedStateId}-${selectedDistrictId || "state"}-${selectedCommodityId}-${selectedScenarioId}-${selectedVisualizationScaleId}-${selectedIntensityMetricId}-${selectedChangeMetricId}-${selectedAdaptationCropTabId}-${selectedYear}`;
         if (lastFetchKeyRef.current === fetchKey) {
+            return;
+        }
+        if (isFetchingRef.current) {
             return;
         }
         setTiffData([]);
@@ -1442,6 +1445,7 @@ const DataGlance = () => {
         memoizedHazardData,
         memoizedGeojsonData,
         selectedStateId,
+        selectedDistrictId,
         selectedCommodityId,
         selectedAdaptationCropTabId,
         selectedScenarioId,
@@ -1621,17 +1625,26 @@ const DataGlance = () => {
     const handleStateChange = useCallback(
         (event) => {
             const stateId = event.target.value;
-            if (stateId === selectedStateId) {
-                return;
-            }
+            if (stateId === selectedStateId) return;
+
             setSelectedStateId(stateId);
+            setSelectedDistrictId(null);
             setShowStateSelect(true);
-            const admin_level = "state";
-            const admin_level_id = selectedStateId;
+
             cleanupMaps();
-            fetchGeojson(admin_level, admin_level_id);
+            fetchGeojson("state", stateId);
         },
-        [fetchGeojson, cleanupMaps, selectedStateId]
+        [selectedStateId, cleanupMaps, fetchGeojson]
+    );
+    const handleDistrictChange = useCallback(
+        (event) => {
+            const districtId = event.target.value || null;
+            if (districtId === selectedDistrictId) return;
+            setSelectedDistrictId(districtId);
+            cleanupMaps();
+            lastFetchKeyRef.current = null;
+        },
+        [selectedDistrictId, cleanupMaps]
     );
     const handleCommodityChange = useCallback(
         (event) => {
@@ -1747,6 +1760,25 @@ const DataGlance = () => {
                                 fontFamily: "Poppins",
                             })}
                         >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 0.625, flex: 1, marginRight: "5px" }}>
+                                <Typography sx={{ fontSize: 13, fontWeight: "500", fontFamily: "Poppins" }}>
+                                    Location:
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: "12px",
+                                        fontFamily: "Poppins",
+                                        backgroundColor: theme.palette.mode === "dark" ? "rgba(60, 75, 60, 1)" : "rgba(235, 247, 233, 1)",
+                                        padding: "4px 12px",
+                                        borderRadius: "4px",
+                                        height: "24px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    Madhya Pradesh
+                                </Typography>
+                            </Box>
                             <Box
                                 sx={{
                                     display: "flex",
@@ -1756,81 +1788,42 @@ const DataGlance = () => {
                                     marginRight: "5px",
                                     overflow: "hidden",
                                     flexWrap: "nowrap",
-                                    minWidth: 'auto',
+                                    minWidth: "auto",
                                     fontFamily: "Poppins",
                                 }}
                             >
-                                <Typography sx={{ fontSize: 13, fontWeight: "500", whiteSpace: "nowrap", fontFamily: "Poppins", }}>
-                                    Location:
+                                <Typography sx={{ fontSize: 13, fontWeight: "500", whiteSpace: "nowrap", fontFamily: "Poppins" }}>
+                                    District:
                                 </Typography>
                                 <FormControl fullWidth>
-                                    {showStateSelect ? (
-                                        <Select
-                                            disableUnderline
-                                            variant="standard"
-                                            value={selectedStateId}
-                                            onChange={handleStateChange}
-                                            displayEmpty
-                                            inputProps={{ "aria-label": "Country" }}
-                                            IconComponent={ArrowDropDownIcon}
-                                            MenuProps={{
-                                                disableScrollLock: true,
-                                                PaperProps: { sx: { maxHeight: 300 } },
-                                                PopperProps: { modifiers: [{ name: "flip", enabled: false }] },
-                                            }}
-                                            sx={(theme) => ({
-                                                fontSize: "12px",
-                                                height: "24px",
-                                                fontFamily: "Poppins",
-                                                backgroundColor:
-                                                    theme.palette.mode === "dark"
-                                                        ? "rgba(60, 75, 60, 1)"
-                                                        : "rgba(235, 247, 233, 1)",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                whiteSpace: "nowrap",
-                                            })}
-                                            disabled={isLoading || isOptionLoading}
-                                        >
-                                            {/*<MenuItem value={0} sx={{ fontSize: "12px", paddingY: "2px" }}>
-                                                South Asia
-                                            </MenuItem>*/}
-                                            {states
-                                                .filter((state) => state.state_id === 56)
-                                                .map((state) => (
-                                                    <MenuItem
-                                                        key={state.state_id}
-                                                        value={state.state_id}
-                                                        disabled={!state.status}
-                                                        sx={{
-                                                            fontSize: "12px",
-                                                            paddingY: "2px",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            whiteSpace: "nowrap",
-                                                            maxWidth: "90px",
-                                                            fontFamily: "Poppins",
-                                                        }}
-                                                    >
-                                                        {state.state}
-                                                    </MenuItem>
-                                                ))}
-                                        </Select>
-                                    ) : (
-                                        <Typography
-                                            variant="body1"
-                                            sx={{
-                                                fontSize: "12px",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                whiteSpace: "nowrap",
-                                                fontFamily: "Poppins",
-                                            }}
-                                        >
-                                            {countries.find((c) => c.country_id === selectedCountryId)?.country ||
-                                                "South Asia"}
-                                        </Typography>
-                                    )}
+                                    <Select
+                                        disableUnderline
+                                        variant="standard"
+                                        value={selectedDistrictId || ""}
+                                        onChange={handleDistrictChange}
+                                        displayEmpty
+                                        IconComponent={ArrowDropDownIcon}
+                                        MenuProps={{
+                                            disableScrollLock: true,
+                                            PaperProps: { sx: { maxHeight: 300 } },
+                                        }}
+                                        sx={(theme) => ({
+                                            fontSize: "12px",
+                                            height: "24px",
+                                            fontFamily: "Poppins",
+                                            backgroundColor: theme.palette.mode === "dark"
+                                                ? "rgba(60, 75, 60, 1)"
+                                                : "rgba(235, 247, 233, 1)",
+                                        })}
+                                        disabled={isLoading || isOptionLoading}
+                                    >
+                                        <MenuItem value="">All Districts</MenuItem>
+                                        {districts.map((d) => (
+                                            <MenuItem key={d.district_id} value={d.district_id}>
+                                                {d.district}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                             </Box>
                             {/* Commodity Box */}
