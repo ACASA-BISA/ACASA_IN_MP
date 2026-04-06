@@ -602,27 +602,27 @@ function TestHome(props) {
                 >'Atlas of Climate Adaptation in South Asian Agriculture' (ACASA)</Typography>
             </Typography>*/}
             <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
-                {" "}
-                This is a geographic instance of
+                This is a geographic instance of{" "}
                 <Typography
                     component="a"
                     href="https://icar-acasa.in/"
                     target="_blank"
                     rel="noopener noreferrer"
                     variant="body1"
-                    sx={(theme) => ({
+                    sx={{
                         color: mode === "dark" ? "#e0e0e0" : "#ffffff",
                         fontFamily: "Poppins",
+                        fontStyle: "italic",
                         textDecoration: "none",
-                        display: "block",
+                        display: "inline",
                         "&:hover": {
                             textDecoration: "underline",
                         },
-                    })}
-                >'Atlas of Climate Adaptation in Indian Agriculture' (ACASA-India)</Typography>
-                <Typography variant="body1" fontStyle={"italic"} fontFamily={"Poppins"}>
-                    for Madhya Pradesh
+                    }}
+                >
+                    'Atlas of Climate Adaptation in Indian Agriculture' (ACASA-India)
                 </Typography>
+                {" "}for Madhya Pradesh
             </Typography>
         </Box>
     );

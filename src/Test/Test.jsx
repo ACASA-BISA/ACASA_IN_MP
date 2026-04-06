@@ -1106,7 +1106,7 @@ function Test() {
                                                                                         target: { value: commodity.commodity_id },
                                                                                     })
                                                                                 }
-                                                                                disabled={!commodity.status || isLoading || mapLoading || selectedScopeId === 2}
+                                                                                disabled={!commodity.status || isLoading || mapLoading || selectedScopeId === 2 || commodity.commodity_id === 5 || commodity.commodity_id === 20 }
                                                                                 color="primary"
                                                                                 style={{ textAlign: "left!important", fontFamily: 'Poppins' }}
                                                                             />
