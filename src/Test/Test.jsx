@@ -505,8 +505,15 @@ function Test() {
     const handleStateChange = () => { };
     const handleDistrictChange = (e) => {
         const districtId = e.target.value;
+
         setSelectedDistrictId(districtId);
-        fetchGeojson('district', districtId);
+
+        if (!districtId) {
+            // revert to state level
+            fetchGeojson('state', 56);
+        } else {
+            fetchGeojson('district', districtId);
+        }
     };
     const handleCommodityTypeChange = (event) => {
         const newCommodityTypeId = event.target.value;
@@ -1107,7 +1114,7 @@ function Test() {
                                                                                         target: { value: commodity.commodity_id },
                                                                                     })
                                                                                 }
-                                                                                disabled={!commodity.status || isLoading || mapLoading || selectedScopeId === 2 || commodity.commodity_id === 5 || commodity.commodity_id === 20 }
+                                                                                disabled={!commodity.status || isLoading || mapLoading || selectedScopeId === 2 || commodity.commodity_id === 5 || commodity.commodity_id === 20}
                                                                                 color="primary"
                                                                                 style={{ textAlign: "left!important", fontFamily: 'Poppins' }}
                                                                             />

@@ -1417,6 +1417,7 @@ function MapViewer({
         layer_type: tiffMetadata.layer_type,
         country_id: breadcrumbData?.country_id || null,
         state_id: breadcrumbData?.state_id || null,
+        district_id: breadcrumbData?.district_id || null,
         commodity_id: breadcrumbData?.commodity_id || null,
         analysis_scope_id: breadcrumbData?.analysis_scope_id || null,
         climate_scenario_id: tiffMetadata.year ? selectedScenario : 1,
