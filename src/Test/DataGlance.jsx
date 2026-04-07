@@ -1778,7 +1778,7 @@ const DataGlance = () => {
                                     Madhya Pradesh
                                 </Typography>
                             </Box>
-                            <Box
+                            {/*<Box
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
@@ -1824,7 +1824,7 @@ const DataGlance = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Box>
+                            </Box>*/}
 
                             <Box
                                 sx={{
