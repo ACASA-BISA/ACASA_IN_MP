@@ -243,7 +243,7 @@ function Test() {
     }, [states]);
     useEffect(() => {
         if (selectedStateId === 56 && !hasLoadedBlocksRef.current) {
-            fetch("/BlockBoundary/mp_blocks.json")
+            fetch(`${process.env.PUBLIC_URL}/BlockBoundary/mp_blocks.json`)
                 .then(res => res.json())
                 .then(data => {
                     setBlockGeojson(data);
