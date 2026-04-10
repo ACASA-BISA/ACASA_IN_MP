@@ -786,7 +786,7 @@ function TestHome(props) {
                             </Box>
                             <Button
                                 variant="contained"
-                                href="/#/dashboard"
+                                href={`${process.env.PUBLIC_URL}/#/dashboard`}
                                 sx={(theme) => ({
                                     "width": "160px",
                                     "mt": 0,
