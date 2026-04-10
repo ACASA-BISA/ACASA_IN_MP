@@ -147,7 +147,7 @@ export default function AboutUs() {
                   fontSize: "18px",
                 })}
               >
-                <Link href={`${process.env.PUBLIC_URL}/Atlas of Climate Adaptation Indian Agriculture Brochure.pdf`} underline="none" color="#4b9e44" target="_blank">
+                <Link href={`${process.env.PUBLIC_URL}/Atlas of Climate Adaptation in Madhya Pradesh's Agriculture - Brochure.pdf`} underline="none" color="#4b9e44" target="_blank">
                   ACASA, Madhya Pradesh Brochure
                 </Link>
               </Typography>
