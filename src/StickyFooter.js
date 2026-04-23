@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -16,11 +17,23 @@ import ListItemText from "@mui/material/ListItemText";
 
 function Copyright() {
   return (
-    <Typography sx={{ fontSize: 14, color: "#aaaaaa", fontFamily: "Poppins", }}>
+    <Typography sx={{ fontSize: 14, color: "#aaaaaa", fontFamily: "Poppins", textAlign: "center" }}>
       {"Copyright © ACASA-BISA, 2025. All rights reserved."}
       {/* <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link> {' '}*/}
+      <br />
+      <Link component={RouterLink} to="/license" underline="hover" sx={{ color: "#aaaaaa", cursor: "pointer" }}>
+        License
+      </Link>{" "}
+      |{" "}
+      <Link component={RouterLink} to="/termsofservice" underline="hover" sx={{ color: "#aaaaaa", cursor: "pointer" }}>
+        Terms of service
+      </Link>{" "}
+      |{" "}
+      <Link component={RouterLink} to="/privacypolicy" underline="hover" sx={{ color: "#aaaaaa", cursor: "pointer" }}>
+        Privacy Policy
+      </Link>
     </Typography>
   );
 }
@@ -214,11 +227,11 @@ export default function StickyFooter() {
                     </TableCell>
                     <TableCell align="left">
                       <Typography variant="subtitle1" sx={{ color: "#ffffff", fontWeight: "600", fontFamily: "Poppins", }} ml={2}>
-                        Dr C. A. Rama Rao, 
+                        Dr C. A. Rama Rao,
                       </Typography>
                     </TableCell>
                   </TableRow>
-                   <TableRow key="2" sx={{ "& td": { border: 0 } }}>
+                  <TableRow key="2" sx={{ "& td": { border: 0 } }}>
                     <TableCell align="left"></TableCell>
                     <TableCell align="left">
                       <Typography variant="subtitle1" sx={{ color: "#ffffff", fontFamily: "Poppins", fontSize: '16px' }} ml={2}>

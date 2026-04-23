@@ -17,6 +17,11 @@ import Feedback1 from "./Feedback";
 import ScrollToTop from "./scrolltop";
 import DataGlance from "./Test/DataGlance";
 import AdaptationDataGlance from "./Test/AdaptationDataGlance";
+import AuthDialog from "./Test/AuthDialog";
+import TermsOfService from "./Test/TermsOfService";
+import PrivacyPolicy from "./Test/PrivacyPolicy";
+import License from "./Test/License";
+import ResetPassword from "./Test/ResetPassword";
 // Initialize Google Analytics
 ReactGA.initialize("G-KE0VBWC68L");
 function App() {
@@ -24,6 +29,21 @@ function App() {
   const navigate = useNavigate();
   const [validCountries, setValidCountries] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
+  const [authOpen, setAuthOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("access_token")
+  );
+
+  const requireAuth = (action) => {
+    if (!isAuthenticated) {
+      setPendingAction(() => action);
+      setAuthOpen(true);
+    } else {
+      action();
+    }
+  };
   // Redirect if not in the subdirectory
   useEffect(() => {
     if (!window.location.pathname.startsWith('/madhyapradesh')) {
@@ -52,7 +72,7 @@ function App() {
   useEffect(() => {
     const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    const urlCountry = pathSegments[0] && !["home", "dashboard", "dataglance", "access", "usecases", "resources", "about", "feedback", "analytics", "hazardglance", "adaptationglance", "future", "comparison", "summary", "timeline", "adaptation", "adaptation2", "adaptationataglance", "hazardataglance"].includes(pathSegments[0]) ? pathSegments[0] : null;
+    const urlCountry = pathSegments[0] && !["home", "dashboard", "dataglance", "access", "usecases", "resources", "about", "feedback", "analytics", "hazardglance", "adaptationglance", "future", "comparison", "summary", "timeline", "adaptation", "adaptation2", "adaptationataglance", "hazardataglance", "termsofservice", "privacypolicy", "license", "resetpassword"].includes(pathSegments[0]) ? pathSegments[0] : null;
     const activePageSegment = pathSegments[1] || pathSegments[0] || "home";
     // Skip redirection for dashboard routes to allow Test.jsx to handle country param
     if (urlCountry && !validCountries.includes(urlCountry.toLowerCase().replace(/\s+/g, "")) && activePageSegment !== "dashboard") {
@@ -65,15 +85,21 @@ function App() {
     <div className="App">
       {/* <BrowserCheck /> */}
       <ThemeProviderWrapper>
-        <ResponsiveAppBar validCountries={validCountries} />
+        <ResponsiveAppBar validCountries={validCountries}
+          isAuthenticated={isAuthenticated}
+          onLoginClick={() => setAuthOpen(true)}
+          onLogoutClick={() => {
+            localStorage.removeItem("access_token");
+            setIsAuthenticated(false);
+          }} />
         <Routes>
           <Route path="/" element={<TestHome />} />
           <Route path="/home" element={<TestHome />} />
           <Route path="/:country/home" element={<TestHome />} />
           <Route path="/about" element={<DrawerMapShow activeBar="about" />} />
           <Route path="/:country/about" element={<DrawerMapShow activeBar="about" />} />
-          <Route path="/dashboard" element={<Test />} />
-          <Route path="/:country/dashboard" element={<Test />} />
+          <Route path="/dashboard" element={<Test requireAuth={requireAuth} />} />
+          <Route path="/:country/dashboard" element={<Test requireAuth={requireAuth} />} />
           <Route path="/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
           <Route path="/:country/adaptationataglance" element={<DrawerMapShow activeBar="analytics" />} />
           <Route path="/access" element={<DrawerMapShow activeBar="access" />} />
@@ -102,13 +128,38 @@ function App() {
           <Route path="/:country/feedback" element={<Feedback1 />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/:country/analytics" element={<AnalyticsPage />} />
-          <Route path="/hazardglance" element={<DataGlance />} />
-          <Route path="/:country/hazardglance" element={<DataGlance />} />
-          <Route path="/adaptationglance" element={<AdaptationDataGlance />} />
-          <Route path="/:country/adaptationglance" element={<AdaptationDataGlance />} />
+          <Route path="/hazardglance" element={<DataGlance requireAuth={requireAuth} />} />
+          <Route path="/:country/hazardglance" element={<DataGlance requireAuth={requireAuth} />} />
+          <Route path="/adaptationglance" element={<AdaptationDataGlance requireAuth={requireAuth} />} />
+          <Route path="/:country/adaptationglance" element={<AdaptationDataGlance requireAuth={requireAuth} />} />
+          <Route path="/termsofservice" element={<TermsOfService />} />
+          <Route path="/:country/termsofservice" element={<TermsOfService />} />
+
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/:country/privacypolicy" element={<PrivacyPolicy />} />
+
+          <Route path="/license" element={<License />} />
+          <Route path="/:country/license" element={<License />} />
+
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/:country/resetpassword" element={<ResetPassword />} />
+
           <Route path="*" element={<TestHome />} />
         </Routes>
         <ScrollToTop />
+        <AuthDialog
+          isOpen={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onAuthSuccess={() => {
+            setIsAuthenticated(true);
+            setAuthOpen(false);
+
+            if (pendingAction) {
+              pendingAction();
+              setPendingAction(null);
+            }
+          }}
+        />
       </ThemeProviderWrapper>
     </div>
   );

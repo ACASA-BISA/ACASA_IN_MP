@@ -68,6 +68,7 @@ L.control.mapControls = function (mapControls) {
   return new L.Control.MapControls(mapControls);
 };
 function MapViewer({
+  requireAuth,
   drawerOpen,
   filters,
   adaptations,
@@ -491,7 +492,7 @@ function MapViewer({
 
         const blockLayer = L.geoJSON(blockGeojson, {
           style: {
-            color: "#888888",   
+            color: "#888888",
             weight: 1,
             opacity: 0.8,
             fill: false,
@@ -2381,8 +2382,19 @@ function MapViewer({
                     layerName={tiffData[index].metadata.layer_name}
                     layerType={memoizedFilters?.layer_type}
                     mapIndex={index}
-                    onDownloadGeoTIFF={() => handleDownloadGeoTIFF(tiffData[index])}
-                    onDownloadTable={() => handleDownloadTable(tiffData[index].metadata.layer_name, tiffData[index].metadata)}
+                    onDownloadGeoTIFF={() =>
+                      requireAuth(() =>
+                        handleDownloadGeoTIFF(tiffData[index])
+                      )
+                    }
+                    onDownloadTable={() =>
+                      requireAuth(() =>
+                        handleDownloadTable(
+                          tiffData[index].metadata.layer_name,
+                          tiffData[index].metadata
+                        )
+                      )
+                    }
                     onDownloadImage={() => handleDownloadImage(tiffData[index].metadata.layer_name, index)}
                   />
                 )}

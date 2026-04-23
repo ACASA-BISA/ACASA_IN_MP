@@ -3,19 +3,24 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Divider,
+  ListItemIcon
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { ThemeContext } from "./ThemeContext";
-import { IconButton } from "@mui/material";
 import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
+import LogoutIcon from "@mui/icons-material/Logout";
 import Translate from "./Translate";
 import LightTooltip from "./LightTooltip";
 import StyledTooltip from "./StyledTooltip";
@@ -95,7 +100,7 @@ const ImgButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function ResponsiveAppBar({ validCountries }) {
+function ResponsiveAppBar({ validCountries, isAuthenticated, onLoginClick, onLogoutClick }) {
   const [flag, setFlag] = useState("home");
   const [persistentCountry, setPersistentCountry] = useState(null);
   const { mode, toggleTheme } = React.useContext(ThemeContext);
@@ -106,10 +111,20 @@ function ResponsiveAppBar({ validCountries }) {
   const [language, setLanguage] = useState("en");
   const [anchorElGlance, setAnchorElGlance] = useState(null);
   const GlanceButtonRef = useRef(null); // Define GlanceButtonRef using useRef
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
     // Add your i18n language change logic here
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   useEffect(() => {
@@ -133,7 +148,7 @@ function ResponsiveAppBar({ validCountries }) {
   useEffect(() => {
     const path = location.hash ? location.hash.replace(/^#\/?/, "") : location.pathname.replace(/^\//, "");
     const pathSegments = path.split("/");
-    const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) && !["hazardglance", "adaptationglance", "future", "comparison", "summary", "timeline", "adaptation", "adaptation2", "analytics", "adaptationataglance", "hazardataglance", "feedback"].includes(pathSegments[0]) ? pathSegments[0] : null;
+    const urlCountry = pathSegments[0] && !pageid.includes(pathSegments[0]) && !["hazardglance", "adaptationglance", "future", "comparison", "summary", "timeline", "adaptation", "adaptation2", "analytics", "adaptationataglance", "hazardataglance", "feedback", "termsofservice", "privacypolicy", "license", "resetpassword"].includes(pathSegments[0]) ? pathSegments[0] : null;
     const activePageSegment = pathSegments[1] || pathSegments[0] || "home";
 
     let activePage = activePageSegment;
@@ -142,7 +157,7 @@ function ResponsiveAppBar({ validCountries }) {
     } else if (["future", "comparison", "summary", "timeline", "adaptation", "adaptation2"].includes(activePage)) {
       activePage = "dashboard";
     } else if (!pageid.includes(activePage) && activePage !== "feedback") {
-      activePage = "home";
+      activePage = null;
     }
 
     // Only update persistentCountry if the country is valid or if we're on dashboard (to allow Test.jsx to handle it)
@@ -211,7 +226,7 @@ function ResponsiveAppBar({ validCountries }) {
       >
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: isSkipTranslateHidden ? "12px" : "14px" }}>
           <Toolbar disableGutters sx={{ width: "100%", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", minWidth: 300,}}>
+            <Box sx={{ display: "flex", alignItems: "center", minWidth: 300, }}>
               <Button
                 size="small"
                 color="inherit"
@@ -401,6 +416,86 @@ function ResponsiveAppBar({ validCountries }) {
               <ImgButton size="small" href="https://bisa.org/" target="_blank" color="inherit" key="Bisa">
                 <Avatar variant="square" alt="Remy Sharp" src={mode === "dark" ? `${process.env.PUBLIC_URL}/BISA Logo in white color.png` : `${process.env.PUBLIC_URL}/BISA Logo in color.png`} sx={{ width: "auto", height: "50px" }} />
               </ImgButton>
+              {!isAuthenticated ? (
+                <Button
+                  onClick={onLoginClick}
+                  variant="outlined"
+                  sx={(theme) => ({
+                    borderColor: theme.palette.divider,
+                    color: theme.palette.text.primary,
+                    textTransform: "none",
+                    fontWeight: 500,
+                    borderRadius: 2,
+                    px: 2,
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      borderColor: theme.palette.text.primary,
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                  })}
+                >
+                  Login
+                </Button>
+              ) : (
+                <>
+                  <IconButton onClick={handleMenuOpen} size="small">
+                    <Avatar
+                      sx={(theme) => ({
+                        width: 34,
+                        height: 34,
+                        fontSize: 14,
+                        fontWeight: 600,
+                        bgcolor:
+                          theme.palette.mode === "dark"
+                            ? theme.palette.grey[800]
+                            : theme.palette.grey[200],
+                        color: theme.palette.text.primary,
+                        border: `1px solid ${theme.palette.divider}`,
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                          boxShadow: theme.shadows[3],
+                        },
+                      })}
+                    >
+                      U
+                    </Avatar>
+                  </IconButton>
+
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleMenuClose}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
+                    PaperProps={{
+                      elevation: 4,
+                      sx: {
+                        mt: 1.5,
+                        borderRadius: 2,
+                        minWidth: 160,
+                      },
+                    }}
+                  >
+                    <MenuItem disabled>
+                      Signed in
+                    </MenuItem>
+
+                    <Divider />
+
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        onLogoutClick();
+                      }}
+                    >
+                      <ListItemIcon>
+                        <LogoutIcon fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
             </Box>
           </Toolbar>
         </Box>

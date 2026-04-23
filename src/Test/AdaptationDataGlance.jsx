@@ -15,6 +15,7 @@ L.Control.DownloadControl = L.Control.extend({
     options: {
         position: "topleft",
         onDownload: () => { },
+        requireAuth: null,
     },
     onAdd: function (map) {
         const container = L.DomUtil.create(
@@ -44,10 +45,21 @@ L.Control.DownloadControl = L.Control.extend({
         downloadButton.style.backgroundColor = "#fff";
         downloadButton.style.borderRadius = "4px";
         L.DomEvent.on(downloadButton, "click", (e) => {
+
+            if (this.options.disabled) return;
+
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
-            this.options.onDownload();
+
+            if (this.options.requireAuth) {
+                this.options.requireAuth(() => {
+                    this.options.onDownload();
+                });
+            } else {
+                this.options.onDownload();
+            }
         });
+
         return container;
     },
     onRemove: function () { },
@@ -171,7 +183,7 @@ L.Control.MapControls = L.Control.extend({
 L.control.mapControls = function (opts) {
     return new L.Control.MapControls(opts);
 };
-const DataGlance = () => {
+const DataGlance = ({ requireAuth }) => {
     const theme = useTheme();
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
@@ -250,8 +262,8 @@ const DataGlance = () => {
         (file, gridSequence, adaptationId) => {
             const isBaseline = parseInt(selectedScenarioId) === 1;
             const year = isBaseline ? "baseline" : selectedYear ?? "no-year";
-            const adminId = selectedDistrictId && selectedDistrictId !== 0 && selectedDistrictId !== null 
-                ? selectedDistrictId 
+            const adminId = selectedDistrictId && selectedDistrictId !== 0 && selectedDistrictId !== null
+                ? selectedDistrictId
                 : selectedStateId || "total";
 
             return `${file.source_file}-${adminId}-${adaptationId ?? "no-adaptation"}-${selectedScenarioId}-${selectedVisualizationScaleId}-${year}`;
@@ -260,9 +272,9 @@ const DataGlance = () => {
     );
     const getAdminParams = useCallback(() => {
         const isDistrictLevel = selectedDistrictId &&
-                            selectedDistrictId !== 0 &&
-                            selectedDistrictId !== null &&
-                            selectedDistrictId !== "";
+            selectedDistrictId !== 0 &&
+            selectedDistrictId !== null &&
+            selectedDistrictId !== "";
         return {
             admin_level: isDistrictLevel ? "district" : "state",
             admin_level_id: isDistrictLevel ? selectedDistrictId : selectedStateId
@@ -714,20 +726,46 @@ const DataGlance = () => {
             isFetchingRef.current = false;
         }
     }, [apiUrl, getAdminParams, fetchAdaptations]);
-    const handleDownloadGeoTIFF = useCallback((arrayBuffer, gridSequence) => {
-        if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-            console.error("Cannot download GeoTIFF: arrayBuffer is empty or invalid", { gridSequence, byteLength: arrayBuffer?.byteLength });
+    const handleDownloadGeoTIFF = useCallback(async (tiff, gridSequence) => {
+
+        const metadata = tiff?.metadata;
+
+        if (!metadata || !metadata.source_file) {
             Swal.fire({
                 icon: "error",
                 title: "Download Failed",
-                text: "No valid GeoTIFF data available to download.",
+                text: "No valid metadata found for this layer.",
             });
             return;
         }
+
         try {
-            const stateName = selectedStateId
-                ? states.find((s) => +s.state_id === +selectedStateId)?.state?.replace(/\s+/g, "") || "UnknownState"
-                : "SouthAsia";
+
+            const admin_level = selectedCountryId !== 0 ? "country" : "total";
+            const admin_level_id = selectedCountryId || null;
+
+            const response = await fetch(`${apiUrl}/layers/geotiff/raw`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    admin_level: admin_level,
+                    admin_level_id: admin_level_id,
+                    source_file: metadata.source_file,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch raw GeoTIFF: ${response.status}`);
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+
+            if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+                throw new Error("Received empty or invalid raw GeoTIFF.");
+            }
+            const countryName =
+                countries.find((c) => +c.country_id === +selectedCountryId)
+                    ?.country?.replace(/\s+/g, "") || "UnknownCountry";
             const commodityName = selectedCommodityId && commodities.length
                 ? commodities.find((c) => c.commodity_id === selectedCommodityId)?.commodity?.replace(/\s+/g, "") || "UnknownCommodity"
                 : "NoCommoditySelected";
@@ -756,19 +794,20 @@ const DataGlance = () => {
                     ? adaptations.find((a) => a.adaptation_id === adaptationId)?.adaptation?.replace(/\s+/g, "") || "UnknownAdaptation"
                     : "NoAdaptation";
             }
-            let file_name = `${stateName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}_${adaptationCropTabName}_${adaptationName}${year ? `_${year}` : ""}`;
-            const firstBytes = Array.from(new Uint8Array(arrayBuffer).slice(0, 8))
-                .map((b) => b.toString(16).padStart(2, "0"))
-                .join(" ");
+            let file_name = `${countryName}_${commodityName}_${intensityName}_${changeName}_${scaleName}_${scenarioName}_${adaptationCropTabName}_${adaptationName}${year ? `_${year}` : ""}`;
+            // ---- DOWNLOAD ----
             const blob = new Blob([arrayBuffer], { type: "image/tiff" });
             const url = URL.createObjectURL(blob);
+
             const a = document.createElement("a");
             a.href = url;
             a.download = `${file_name}.tif`;
+
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+
         } catch (err) {
             console.error("GeoTIFF download error:", err);
             Swal.fire({
@@ -777,7 +816,22 @@ const DataGlance = () => {
                 text: "Failed to download GeoTIFF file.",
             });
         }
-    }, [selectedStateId, selectedCommodityId, selectedScenarioId, selectedVisualizationScaleId, selectedIntensityMetricId, selectedChangeMetricId, selectedYear, selectedAdaptationCropTabId, selectedAdaptations, countries, commodities, climateScenarios, visualizationScales, adaptations, adaptationCropTabs]);
+    }, [apiUrl,
+        selectedCountryId,
+        selectedCommodityId,
+        selectedScenarioId,
+        selectedVisualizationScaleId,
+        selectedIntensityMetricId,
+        selectedChangeMetricId,
+        selectedYear,
+        selectedAdaptationCropTabId,
+        selectedAdaptations,
+        countries,
+        commodities,
+        climateScenarios,
+        visualizationScales,
+        adaptations,
+        adaptationCropTabs]);
     const cleanupMaps = useCallback(() => {
         mapInstances.current.forEach((map, index) => {
             if (map) {
@@ -1069,48 +1123,50 @@ const DataGlance = () => {
                     const downloadControl = L.control.downloadControl({
                         position: "topleft",
                         onDownload: () => {
-                            if (!allDataReady || !selectedCommodityId || !selectedScenarioId || !selectedVisualizationScaleId) {
-                                console.warn("Download attempted before data is ready", {
-                                    allDataReady,
-                                    selectedCommodityId,
-                                    selectedScenarioId,
-                                    selectedVisualizationScaleId,
-                                });
-                                Swal.fire({
-                                    icon: "warning",
-                                    title: "Data Not Ready",
-                                    text: "Please wait until all data is loaded before downloading.",
-                                });
-                                return;
-                            }
-                            const gridSequence = index === 0 ? 0 : index;
-                            const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
-                            if (!tiffForDownload) {
-                                console.error(`No TIFF data found for map ${index}, grid_sequence: ${gridSequence}`);
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Download Failed",
-                                    text: `No GeoTIFF data available for map ${index}.`,
-                                });
-                                return;
-                            }
-                            if (!tiffForDownload.arrayBuffer || tiffForDownload.arrayBuffer.byteLength === 0) {
-                                console.error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${gridSequence}`, {
-                                    tiffExists: !!tiffForDownload,
-                                    arrayBufferExists: !!tiffForDownload.arrayBuffer,
-                                    byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
-                                    sourceFile: tiffForDownload.metadata.source_file,
-                                    layerName: tiffForDownload.metadata.layer_name,
-                                    adaptation_id: tiffForDownload.metadata.adaptation_id,
-                                });
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Download Failed",
-                                    text: `No valid GeoTIFF data available for ${tiffForDownload.metadata.layer_name || `map ${index}`}.`,
-                                });
-                                return;
-                            }
-                            handleDownloadGeoTIFF(tiffForDownload.arrayBuffer, gridSequence);
+                            requireAuth(() => {
+                                if (!allDataReady || !selectedCommodityId || !selectedScenarioId || !selectedVisualizationScaleId) {
+                                    console.warn("Download attempted before data is ready", {
+                                        allDataReady,
+                                        selectedCommodityId,
+                                        selectedScenarioId,
+                                        selectedVisualizationScaleId,
+                                    });
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: "Data Not Ready",
+                                        text: "Please wait until all data is loaded before downloading.",
+                                    });
+                                    return;
+                                }
+                                const gridSequence = index === 0 ? 0 : index;
+                                const tiffForDownload = tiffData.find((t) => t.metadata.grid_sequence === gridSequence);
+                                if (!tiffForDownload) {
+                                    console.error(`No TIFF data found for map ${index}, grid_sequence: ${gridSequence}`);
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Download Failed",
+                                        text: `No GeoTIFF data available for map ${index}.`,
+                                    });
+                                    return;
+                                }
+                                if (!tiffForDownload.arrayBuffer || tiffForDownload.arrayBuffer.byteLength === 0) {
+                                    console.error(`Invalid arrayBuffer for map ${index}, grid_sequence: ${gridSequence}`, {
+                                        tiffExists: !!tiffForDownload,
+                                        arrayBufferExists: !!tiffForDownload.arrayBuffer,
+                                        byteLength: tiffForDownload.arrayBuffer?.byteLength || 0,
+                                        sourceFile: tiffForDownload.metadata.source_file,
+                                        layerName: tiffForDownload.metadata.layer_name,
+                                        adaptation_id: tiffForDownload.metadata.adaptation_id,
+                                    });
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Download Failed",
+                                        text: `No valid GeoTIFF data available for ${tiffForDownload.metadata.layer_name || `map ${index}`}.`,
+                                    });
+                                    return;
+                                }
+                                handleDownloadGeoTIFF(tiffForDownload, gridSequence);
+                            });
                         },
                     });
                     downloadControl.addTo(map);

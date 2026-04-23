@@ -7,7 +7,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Swal from "sweetalert2";
 import MapViewer from "./MapViewer";
 const drawerWidth = 254;
-function Test() {
+function Test({ requireAuth }) {
     useEffect(() => {
         document.documentElement.style.overflowX = "hidden";
         document.body.style.overflowX = "hidden";
@@ -1422,6 +1422,7 @@ function Test() {
                     <Grid container sx={{ height: "100%" }}>
                         <Grid item xs={12}>
                             <MapViewer
+                                requireAuth={requireAuth}
                                 drawerOpen={open}
                                 filters={appliedFilters}
                                 adaptations={adaptations}
